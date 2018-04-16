@@ -1,12 +1,12 @@
 package controller;
 
-import view.Login;
+import view.LoginView;
 
 public class CadastroTCC {
     
     public static void main(String Args[]){
         
-         Login login = new Login();
+         LoginView login = new LoginView();
          
          login.setVisible(true);
     }

@@ -12,15 +12,13 @@ import javax.swing.plaf.basic.BasicButtonUI;
  *
  * @author Leandro
  */
-public class Login extends javax.swing.JFrame {
+public class LoginView extends javax.swing.JFrame {
 
     String MASP = "root";
     String Senha = "root";
     
-    public Login() {
+    public LoginView() {
         initComponents();
-        
-        
         
         txtLogin.setOpaque(false);
         txtSenha.setOpaque(false);
@@ -29,6 +27,9 @@ public class Login extends javax.swing.JFrame {
         
         lblAviso.setVisible(false);
         
+        
+        txtLogin.requestFocus();
+        txtLogin.selectAll();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -110,12 +111,19 @@ public class Login extends javax.swing.JFrame {
         txtLogin.setBackground(new java.awt.Color(249, 249, 249));
         txtLogin.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtLogin.setForeground(new java.awt.Color(29, 31, 40));
-        txtLogin.setText("oalka");
+        txtLogin.setText("root");
         txtLogin.setToolTipText("Digite seu MASP");
         txtLogin.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(59, 110, 149)), javax.swing.BorderFactory.createEmptyBorder(1, 40, 0, 1)));
+        txtLogin.setFocusCycleRoot(true);
+        txtLogin.setNextFocusableComponent(txtSenha);
         txtLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtLoginActionPerformed(evt);
+            }
+        });
+        txtLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtLoginKeyPressed(evt);
             }
         });
         pnlFundo.add(txtLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, 260, 30));
@@ -123,14 +131,20 @@ public class Login extends javax.swing.JFrame {
         txtSenha.setBackground(new java.awt.Color(249, 249, 249));
         txtSenha.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         txtSenha.setForeground(new java.awt.Color(29, 31, 40));
-        txtSenha.setText("txtSenha");
+        txtSenha.setText("root");
         txtSenha.setToolTipText("Digite sua senha");
         txtSenha.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(59, 110, 143)), javax.swing.BorderFactory.createEmptyBorder(1, 40, 0, 1)));
+        txtSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSenhaKeyPressed(evt);
+            }
+        });
         pnlFundo.add(txtSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 180, 260, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagens/Logo_vertical.png"))); // NOI18N
         pnlFundo.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
 
+        btnEntrar.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         btnEntrar.setText("Entrar");
         btnEntrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -161,8 +175,11 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtLoginActionPerformed
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        if(txtLogin.getText().equals(MASP) && txtSenha.getPassword().equals(Senha)){
-            JOptionPane.showMessageDialog(null, "Deu certo");
+        if(txtLogin.getText().equals(MASP) && txtSenha.getText().equals(Senha)){
+            PrincipalView pri = new PrincipalView();
+            
+            pri.setVisible(true);
+            this.dispose();
         }
         else{
             lblAviso.setVisible(true);
@@ -172,6 +189,22 @@ public class Login extends javax.swing.JFrame {
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnFecharActionPerformed
+
+    private void txtLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLoginKeyPressed
+        if(evt.getKeyCode() == 10){
+            txtSenha.requestFocus();
+            txtSenha.selectAll();
+        }
+    }//GEN-LAST:event_txtLoginKeyPressed
+
+    private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed
+        if(evt.getKeyCode() == 10){
+            PrincipalView pri = new PrincipalView();
+            
+            pri.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txtSenhaKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
