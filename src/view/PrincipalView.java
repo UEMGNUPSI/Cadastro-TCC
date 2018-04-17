@@ -20,8 +20,7 @@ public class PrincipalView extends javax.swing.JFrame {
         
         btnSalvar.setUI(new BasicButtonUI());
         btnExcluir.setUI(new BasicButtonUI());
-        btnEditar.setUI(new BasicButtonUI());
-        btnAtualizar.setUI(new BasicButtonUI());        
+        btnEditar.setUI(new BasicButtonUI());      
         btnCadastro.setUI(new BasicButtonUI());
     }
     @SuppressWarnings("unchecked")
@@ -40,7 +39,7 @@ public class PrincipalView extends javax.swing.JFrame {
         txtBusca = new javax.swing.JTextField();
         lblCursoBusca = new javax.swing.JLabel();
         cbxCursoBusca = new javax.swing.JComboBox<>();
-        btnAtualizar = new javax.swing.JButton();
+        btnCadastro = new javax.swing.JButton();
         pnlDados = new javax.swing.JPanel();
         btnEditar = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
@@ -58,8 +57,11 @@ public class PrincipalView extends javax.swing.JFrame {
         txtEntrega = new javax.swing.JFormattedTextField();
         lblEntrega = new javax.swing.JLabel();
         lblFrameTitulo = new javax.swing.JLabel();
-        pnlCadastro = new javax.swing.JPanel();
-        btnCadastro = new javax.swing.JButton();
+        txtOrientador = new javax.swing.JTextField();
+        lblOrientador = new javax.swing.JLabel();
+        cbxCoorientador = new javax.swing.JCheckBox();
+        txtCoorientador = new javax.swing.JTextField();
+        lblOrientador1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Cadastro TCC");
@@ -124,11 +126,16 @@ public class PrincipalView extends javax.swing.JFrame {
         cbxCursoBusca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbxCursoBusca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos" }));
 
-        btnAtualizar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnAtualizar.setForeground(new java.awt.Color(29, 31, 40));
-        btnAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagens/iconmonstr-refresh-3-16.png"))); // NOI18N
-        btnAtualizar.setText("Atualizar");
-        btnAtualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCadastro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnCadastro.setForeground(new java.awt.Color(29, 31, 40));
+        btnCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagens/iconmonstr-file-14-16.png"))); // NOI18N
+        btnCadastro.setText("Novo Cadastro");
+        btnCadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastroActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlTabelaLayout = new javax.swing.GroupLayout(pnlTabela);
         pnlTabela.setLayout(pnlTabelaLayout);
@@ -139,13 +146,13 @@ public class PrincipalView extends javax.swing.JFrame {
                 .addGroup(pnlTabelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlTabelaLayout.createSequentialGroup()
                         .addGroup(pnlTabelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTabelaLayout.createSequentialGroup()
                                 .addGroup(pnlTabelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblBusca)
                                     .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
-                                .addComponent(btnAtualizar)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())
                     .addGroup(pnlTabelaLayout.createSequentialGroup()
                         .addGap(50, 50, 50)
@@ -162,11 +169,12 @@ public class PrincipalView extends javax.swing.JFrame {
             pnlTabelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTabelaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlTabelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblBusca)
-                    .addComponent(btnAtualizar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(pnlTabelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlTabelaLayout.createSequentialGroup()
+                        .addComponent(lblBusca)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19)
                 .addGroup(pnlTabelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnlTabelaLayout.createSequentialGroup()
@@ -305,58 +313,103 @@ public class PrincipalView extends javax.swing.JFrame {
         lblFrameTitulo.setText("Dados do Autor");
         lblFrameTitulo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(142, 142, 142)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 5, 1)));
 
+        txtOrientador.setBackground(new java.awt.Color(245, 245, 245));
+        txtOrientador.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtOrientador.setForeground(new java.awt.Color(29, 31, 40));
+        txtOrientador.setText("this.setText('teste');");
+        txtOrientador.setToolTipText("Nome completo do autor.");
+        txtOrientador.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(59, 110, 143)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5)));
+        txtOrientador.setDisabledTextColor(new java.awt.Color(47, 50, 65));
+        txtOrientador.setEnabled(false);
+
+        lblOrientador.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblOrientador.setForeground(new java.awt.Color(29, 31, 40));
+        lblOrientador.setText("Orientador");
+
+        cbxCoorientador.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbxCoorientador.setForeground(new java.awt.Color(29, 31, 40));
+        cbxCoorientador.setText("Coorientador");
+        cbxCoorientador.setEnabled(false);
+        cbxCoorientador.setOpaque(false);
+        cbxCoorientador.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                cbxCoorientadorStateChanged(evt);
+            }
+        });
+
+        txtCoorientador.setBackground(new java.awt.Color(245, 245, 245));
+        txtCoorientador.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtCoorientador.setForeground(new java.awt.Color(29, 31, 40));
+        txtCoorientador.setText("this.setText('teste');");
+        txtCoorientador.setToolTipText("Nome completo do autor.");
+        txtCoorientador.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(59, 110, 143)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5)));
+        txtCoorientador.setDisabledTextColor(new java.awt.Color(47, 50, 65));
+        txtCoorientador.setEnabled(false);
+
+        lblOrientador1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblOrientador1.setForeground(new java.awt.Color(29, 31, 40));
+        lblOrientador1.setText("Coorientador");
+
         javax.swing.GroupLayout pnlDadosLayout = new javax.swing.GroupLayout(pnlDados);
         pnlDados.setLayout(pnlDadosLayout);
         pnlDadosLayout.setHorizontalGroup(
             pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlDadosLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDadosLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(74, 74, 74)
+                        .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlDadosLayout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlDadosLayout.createSequentialGroup()
-                                .addComponent(lblTitulo)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(pnlDadosLayout.createSequentialGroup()
-                                .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblFrameTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDadosLayout.createSequentialGroup()
+                                .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(pnlDadosLayout.createSequentialGroup()
+                                        .addComponent(lblTitulo)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(pnlDadosLayout.createSequentialGroup()
+                                        .addComponent(lblFrameTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(48, 48, 48))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDadosLayout.createSequentialGroup()
                                         .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(txtRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(lblRegistro))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                                         .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(lblAutor)
-                                            .addComponent(txtAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(48, 48, 48)))
-                        .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(txtTitulo, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pnlDadosLayout.createSequentialGroup()
-                        .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCurso)
-                            .addComponent(cbxCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(48, 48, 48)
-                        .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblApresentacao)
-                            .addComponent(txtApresentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblEntrega)
-                            .addComponent(txtEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(38, 38, 38)))
+                                            .addComponent(txtAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(8, 8, 8)))
+                                .addComponent(btnEditar))
+                            .addComponent(txtTitulo, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDadosLayout.createSequentialGroup()
+                                .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(pnlDadosLayout.createSequentialGroup()
+                                        .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblCurso)
+                                            .addComponent(cbxCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(48, 48, 48)
+                                        .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblApresentacao)
+                                            .addComponent(txtApresentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(lblOrientador)
+                                    .addComponent(lblOrientador1)
+                                    .addComponent(txtCoorientador)
+                                    .addComponent(txtOrientador))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbxCoorientador)
+                                    .addComponent(lblEntrega)
+                                    .addComponent(txtEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(27, 27, 27)))))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDadosLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(173, 173, 173))
         );
         pnlDadosLayout.setVerticalGroup(
             pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlDadosLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlDadosLayout.createSequentialGroup()
                         .addComponent(lblFrameTitulo)
                         .addGap(29, 29, 29)
@@ -367,15 +420,22 @@ public class PrincipalView extends javax.swing.JFrame {
                         .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(pnlDadosLayout.createSequentialGroup()
-                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnExcluir)))
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(lblTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(lblOrientador)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtOrientador, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxCoorientador))
+                .addGap(18, 18, 18)
+                .addComponent(lblOrientador1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCoorientador, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlDadosLayout.createSequentialGroup()
                         .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -389,26 +449,12 @@ public class PrincipalView extends javax.swing.JFrame {
                         .addComponent(lblEntrega)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
-                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSalvar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExcluir, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
-
-        pnlCadastro.setBackground(new java.awt.Color(247, 247, 247));
-        pnlCadastro.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new java.awt.Color(215, 215, 215)));
-        pnlCadastro.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnCadastro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnCadastro.setForeground(new java.awt.Color(29, 31, 40));
-        btnCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagens/iconmonstr-file-14-16.png"))); // NOI18N
-        btnCadastro.setText("Novo Cadastro");
-        btnCadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnCadastro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCadastroActionPerformed(evt);
-            }
-        });
-        pnlCadastro.add(btnCadastro, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 150, 40));
 
         javax.swing.GroupLayout pnlFrameLayout = new javax.swing.GroupLayout(pnlFrame);
         pnlFrame.setLayout(pnlFrameLayout);
@@ -417,11 +463,7 @@ public class PrincipalView extends javax.swing.JFrame {
             .addGroup(pnlFrameLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnlTabela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(pnlFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlDados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(pnlFrameLayout.createSequentialGroup()
-                        .addComponent(pnlCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(pnlDados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlFrameLayout.setVerticalGroup(
@@ -432,8 +474,6 @@ public class PrincipalView extends javax.swing.JFrame {
                     .addComponent(pnlTabela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnlFrameLayout.createSequentialGroup()
                         .addComponent(pnlDados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(pnlCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -450,8 +490,17 @@ public class PrincipalView extends javax.swing.JFrame {
             txtRegistro.setEnabled(true);
             txtAutor.setEnabled(true);
             txtTitulo.setEnabled(true);
+            txtOrientador.setEnabled(true);
             txtApresentacao.setEnabled(true);
             txtEntrega.setEnabled(true);
+            cbxCoorientador.setEnabled(true);
+            
+            if(cbxCoorientador.isSelected()){
+                txtCoorientador.setEnabled(true);
+            }
+            else{
+                txtCoorientador.setEnabled(false);
+            }
             
             btnSalvar.setEnabled(true);
             btnExcluir.setEnabled(true);
@@ -492,9 +541,12 @@ public class PrincipalView extends javax.swing.JFrame {
                 txtRegistro.setText("Ultimo Num");
                 txtAutor.setText("");
                 txtTitulo.setText("");
+                txtOrientador.setText("");
+                txtCoorientador.setText("");
                 txtApresentacao.setText("");
                 txtEntrega.setText("");
                 cbxCurso.setSelectedIndex(0);
+                cbxCoorientador.setSelected(false);
                 
                 btnSalvar.setEnabled(true);
                 btnExcluir.setEnabled(false);
@@ -506,6 +558,16 @@ public class PrincipalView extends javax.swing.JFrame {
             txtRegistro.setEditable(true);
             txtAutor.setEnabled(true);
             txtTitulo.setEnabled(true);
+            txtOrientador.setEnabled(true);
+            
+            // aqui vai ter que fazer um esquema com o banco para ver se tem um cadastro de coorientado. Caso tenha setSelected(true), caso não setSelected(false).
+            if(cbxCoorientador.isSelected()){
+                txtCoorientador.setEnabled(true);
+            }
+            else{
+                txtCoorientador.setEnabled(false);
+            }
+            
             txtApresentacao.setEnabled(true);
             txtEntrega.setEnabled(true);
             cbxCurso.setEnabled(true);
@@ -515,22 +577,27 @@ public class PrincipalView extends javax.swing.JFrame {
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // Excluir
         int res = JOptionPane.showConfirmDialog(null,"Você realmente deseja excluir este cadastro?", "Excluir Cadastro", JOptionPane.YES_NO_OPTION);
-            // Novo Cadastro
             if(res == JOptionPane.YES_OPTION){
                 
                 txtRegistro.setText("Ultimo Num");
                 txtAutor.setText("");
                 txtTitulo.setText("");
+                txtOrientador.setText("");
+                txtCoorientador.setText("");
                 txtApresentacao.setText("");
                 txtEntrega.setText("");
                 cbxCurso.setSelectedIndex(0);
+                cbxCoorientador.setSelected(false);
                 
-                txtRegistro.setEditable(false);
+                txtRegistro.setEnabled(false);
                 txtAutor.setEnabled(false);
                 txtTitulo.setEnabled(false);
+                txtOrientador.setEnabled(false);
+                txtCoorientador.setEnabled(false);
                 txtApresentacao.setEnabled(false);
                 txtEntrega.setEnabled(false);
                 cbxCurso.setEnabled(false);
+                cbxCoorientador.setEnabled(false);
                 
                 btnSalvar.setEnabled(false);
                 btnExcluir.setEnabled(false);
@@ -539,13 +606,22 @@ public class PrincipalView extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnExcluirActionPerformed
 
+    private void cbxCoorientadorStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbxCoorientadorStateChanged
+        if(cbxCoorientador.isSelected()){
+            txtCoorientador.setEnabled(true);
+        }
+        else{
+            txtCoorientador.setEnabled(false);
+        }
+    }//GEN-LAST:event_cbxCoorientadorStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAtualizar;
     private javax.swing.JButton btnCadastro;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JCheckBox cbxCoorientador;
     private javax.swing.JComboBox<String> cbxCurso;
     private javax.swing.JComboBox<String> cbxCursoBusca;
     private javax.swing.JComboBox<String> cbxTipoBusca;
@@ -558,10 +634,11 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JLabel lblEntrega;
     private javax.swing.JLabel lblFiltro;
     private javax.swing.JLabel lblFrameTitulo;
+    private javax.swing.JLabel lblOrientador;
+    private javax.swing.JLabel lblOrientador1;
     private javax.swing.JLabel lblRegistro;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblUsuario;
-    private javax.swing.JPanel pnlCadastro;
     private javax.swing.JPanel pnlDados;
     private javax.swing.JPanel pnlFrame;
     private javax.swing.JPanel pnlTabela;
@@ -570,7 +647,9 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField txtApresentacao;
     private javax.swing.JTextField txtAutor;
     private javax.swing.JTextField txtBusca;
+    private javax.swing.JTextField txtCoorientador;
     private javax.swing.JFormattedTextField txtEntrega;
+    private javax.swing.JTextField txtOrientador;
     private javax.swing.JTextField txtRegistro;
     private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
