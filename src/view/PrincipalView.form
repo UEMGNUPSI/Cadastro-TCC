@@ -338,6 +338,9 @@
                 </Property>
                 <Property name="opaque" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="txtBuscaCaretUpdate"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lblCursoBusca">
               <Properties>

@@ -106,4 +106,60 @@ public class CadtccD {
         return listaCadtcc;
     }
     
+    public List<CadtccM> listaAutor(String nome) throws SQLException{
+        PreparedStatement pst;
+        String sql;
+        List<CadtccM> listaCadtcc = new ArrayList<>();
+        sql = "select * from Cadtcc where autor = %?%";
+        pst = Conexao.getInstance().prepareStatement(sql);
+        pst.setString(1, nome);
+        ResultSet rs = pst.executeQuery();
+        
+        while(rs.next()){
+            listaCadtcc.add(new CadtccM(
+                            rs.getInt("id"),
+                            rs.getString("autor"),
+                            rs.getString("titulo"),
+                            rs.getString("orientador"),
+                            rs.getString("coorientador"),
+                            cursodao.busca(rs.getInt("idcurso")),
+                            rs.getString("registro"),
+                            rs.getString("dataentrega"),
+                            rs.getString("dataapresentacao"),
+                            rs.getString("trabalho")));
+        }
+        pst.close();
+        return listaCadtcc;
+    }
+    
+    public CadtccM buscaUltimoRegistro() throws SQLException{
+        int i = 0;
+        PreparedStatement pst;
+        String sql;
+        CadtccM cadtcc = null;        
+        sql = "select * from cadtcc order by id desc";
+        pst = Conexao.getInstance().prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+        while(rs.next()){
+            cadtcc = new CadtccM(
+                            rs.getInt("id"),
+                            rs.getString("autor"),
+                            rs.getString("titulo"),
+                            rs.getString("orientador"),
+                            rs.getString("coorientador"),
+                            cursodao.busca(rs.getInt("idcurso")),
+                            rs.getString("registro"),
+                            rs.getString("dataentrega"),
+                            rs.getString("dataapresentacao"),
+                            rs.getString("trabalho"));
+            i++;
+        }
+        pst.close();
+        
+        if(i==0){
+            return null;
+        }else{
+            return cadtcc;
+        }
+    }
 }

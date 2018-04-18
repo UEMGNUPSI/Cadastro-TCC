@@ -37,6 +37,17 @@ public class PrincipalView extends javax.swing.JFrame {
 
     public PrincipalView() {
         initComponents();
+        atualizaTabelaCad();
+        
+        txtAutor.setText("");
+        txtTitulo.setText("");
+        txtOrientador.setText("");
+        txtCoorientador.setText("");
+        cbxCurso.setSelectedIndex(0);
+        txtRegistro.setText("");
+        txtEntrega.setText("");
+        txtApresentacao.setText("");
+        
         
         btnSalvar.setUI(new BasicButtonUI());
         btnExcluir.setUI(new BasicButtonUI());
@@ -229,6 +240,11 @@ public class PrincipalView extends javax.swing.JFrame {
         txtBusca.setToolTipText("Precione ENTER para buscar.");
         txtBusca.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(59, 110, 143)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 10)));
         txtBusca.setOpaque(false);
+        txtBusca.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtBuscaCaretUpdate(evt);
+            }
+        });
 
         lblCursoBusca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblCursoBusca.setText("Curso");
@@ -713,7 +729,16 @@ public class PrincipalView extends javax.swing.JFrame {
             // Novo Cadastro
             if(res == JOptionPane.YES_OPTION){
                 
-                txtRegistro.setText("Ultimo Num");
+                try {
+                    cadtcc = cadtccdao.buscaUltimoRegistro();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if(cadtcc == null){
+                
+                }else{
+                    txtRegistro.setText(cadtcc.getRegistro());
+                }
                 txtAutor.setText("");
                 txtTitulo.setText("");
                 txtOrientador.setText("");
@@ -729,7 +754,6 @@ public class PrincipalView extends javax.swing.JFrame {
             }
         }
         else{
-            txtRegistro.setText("Ultimo Num"); // só pra ter certaza que o ultimo número estará setado.
             txtRegistro.setEditable(true);
             txtAutor.setEnabled(true);
             txtTitulo.setEnabled(true);
@@ -761,8 +785,6 @@ public class PrincipalView extends javax.swing.JFrame {
                 Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
             }
-                
-                txtRegistro.setText("Ultimo Num");
                 txtAutor.setText("");
                 txtTitulo.setText("");
                 txtOrientador.setText("");
@@ -797,6 +819,27 @@ public class PrincipalView extends javax.swing.JFrame {
             txtCoorientador.setEnabled(false);
         }
     }//GEN-LAST:event_cbxCoorientadorStateChanged
+
+    private void txtBuscaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtBuscaCaretUpdate
+        listaCadtcc = null;
+        if(txtBusca.getText().equals("")){
+            atualizaTabelaCad();
+        }else{
+                    
+            try {
+                listaCadtcc = cadtccdao.listaAutor(txtBusca.getText());
+
+                if(listaCadtcc == null){
+                    JOptionPane.showMessageDialog(null, "Nenhum Cliente encontrado!","", JOptionPane.WARNING_MESSAGE);
+                    atualizaTabelaCad();
+                }else{
+                    atualizaTabelaCadBusca();
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_txtBuscaCaretUpdate
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
