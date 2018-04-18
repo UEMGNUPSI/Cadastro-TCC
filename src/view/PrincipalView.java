@@ -463,6 +463,7 @@ public class PrincipalView extends javax.swing.JFrame {
             .addGroup(pnlFrameLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnlTabela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addComponent(pnlDados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -516,6 +517,8 @@ public class PrincipalView extends javax.swing.JFrame {
         // Salva os dados
         if((!txtAutor.getText().equals("")) || (!txtTitulo.getText().equals("")) || (!txtApresentacao.getText().equals(""))
                 || (!txtEntrega.getText().equals("")) || (cbxCurso.getSelectedIndex() != 0) || (txtRegistro.getText().equals(""))){
+            
+            //if(txt)
             
 
             btnSalvar.setEnabled(false);

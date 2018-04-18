@@ -15,16 +15,18 @@ public class UsuarioM {
     private String Nome;
     private String Masp;
     private String Senha;
+    private Boolean Admin;
     private Boolean Inativo;
 
     public UsuarioM() {
     }
 
-    public UsuarioM(int Id, String Nome, String Masp, String Senha, Boolean Inativo) {
+    public UsuarioM(int Id, String Nome, String Masp, String Senha, Boolean Admin, Boolean Inativo) {
         this.Id = Id;
         this.Nome = Nome;
         this.Masp = Masp;
         this.Senha = Senha;
+        this.Admin = Admin;
         this.Inativo = Inativo;
     }
 
@@ -58,6 +60,14 @@ public class UsuarioM {
 
     public void setSenha(String Senha) {
         this.Senha = Senha;
+    }
+
+    public Boolean getAdmin() {
+        return Admin;
+    }
+
+    public void setAdmin(Boolean Admin) {
+        this.Admin = Admin;
     }
 
     public Boolean getInativo() {

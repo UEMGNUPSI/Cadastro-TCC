@@ -14,6 +14,8 @@ public class CadtccM {
     private int Id;
     private String Autor;
     private String Titulo;
+    private String Orientador;
+    private String Coorientador;
     private CursoM IdCurso;
     private String Ano;
     private String Registro;
