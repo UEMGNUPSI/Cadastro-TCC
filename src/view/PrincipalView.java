@@ -9,6 +9,7 @@ import Dao.CadtccD;
 import Dao.CursoD;
 import Model.CadtccM;
 import Model.CursoM;
+import Model.UsuarioM;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,7 @@ public class PrincipalView extends javax.swing.JFrame {
 
     public PrincipalView() {
         initComponents();
+        this.setVisible(true);
         atualizaTabelaCad();
         
         txtAutor.setText("");
@@ -53,6 +55,10 @@ public class PrincipalView extends javax.swing.JFrame {
         btnExcluir.setUI(new BasicButtonUI());
         btnEditar.setUI(new BasicButtonUI());      
         btnCadastro.setUI(new BasicButtonUI());
+    }
+
+    PrincipalView(UsuarioM usuarioM) {
+        PrincipalView principal = new PrincipalView();
     }
     
     public void atualizaTabelaCad(){

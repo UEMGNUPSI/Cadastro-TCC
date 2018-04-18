@@ -5,6 +5,8 @@
  */
 package view;
 
+import Dao.UsuarioD;
+import Model.UsuarioM;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicButtonUI;
 
@@ -13,9 +15,12 @@ import javax.swing.plaf.basic.BasicButtonUI;
  * @author Leandro
  */
 public class LoginView extends javax.swing.JFrame {
-
-    String MASP = "root";
-    String Senha = "root";
+    
+    //String MASP = "root";
+    //String Senha = "root";
+    
+    UsuarioM usuarioM;
+    UsuarioD usuarioDAO;
     
     public LoginView() {
         initComponents();
@@ -175,15 +180,42 @@ public class LoginView extends javax.swing.JFrame {
     }//GEN-LAST:event_txtLoginActionPerformed
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        if(txtLogin.getText().equals(MASP) && txtSenha.getText().equals(Senha)){
-            PrincipalView pri = new PrincipalView();
+        
+        usuarioM = null;
+        try {
+            if (txtLogin.getText().isEmpty()) {
+                
+                JOptionPane.showMessageDialog(null, "O usuário deve ser preenchido.", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+                txtLogin.requestFocus();
+
+            } else if (txtSenha.getText().isEmpty()) {
+                
+                JOptionPane.showMessageDialog(null, "A senha deve ser preenchida.", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+                txtSenha.requestFocus();
+            } else {
+                usuarioM = UsuarioD.valida(txtLogin.getText(), txtSenha.getText());
+                if(usuarioM == null){
+                    JOptionPane.showMessageDialog(null, "Usuário não encontrado, tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    txtLogin.setText("");
+                    txtSenha.setText("");
+                    txtLogin.requestFocus();
+                }else{
+       
+                    PrincipalView principal = new PrincipalView(usuarioM);
+                    this.dispose();
+                    
+                }
+                
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Usuário não encontrado, tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
+            txtLogin.setText("");
+            txtSenha.setText("");
+            txtLogin.requestFocus();
+            ex.printStackTrace();
             
-            pri.setVisible(true);
-            this.dispose();
         }
-        else{
-            lblAviso.setVisible(true);
-        }
+       
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed

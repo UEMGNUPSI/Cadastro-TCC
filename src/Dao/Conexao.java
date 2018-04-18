@@ -23,7 +23,7 @@ public class Conexao implements Serializable {
     private Conexao() {
         
         usuario = "root";        
-        senha = "root";
+        senha = "32799097";
 
         url = "jdbc:mysql://localhost:3306/cadtcc";      
         try {
