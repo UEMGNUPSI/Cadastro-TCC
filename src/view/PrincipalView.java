@@ -5,15 +5,35 @@
  */
 package view;
 
+import Dao.CadtccD;
+import Dao.CursoD;
+import Model.CadtccM;
+import Model.CursoM;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Leandro
  */
 public class PrincipalView extends javax.swing.JFrame {
+    
+    CadtccM cadtcc = new CadtccM();
+    CadtccD cadtccdao = new CadtccD();
+    List<CadtccM> listaCadtcc = new ArrayList<>();
+    
+    CursoM curso = new CursoM();
+    CursoD cursodao = new CursoD();
+    List<CursoM> listaCurso = new ArrayList<>();
 
     public PrincipalView() {
         initComponents();
@@ -23,6 +43,95 @@ public class PrincipalView extends javax.swing.JFrame {
         btnEditar.setUI(new BasicButtonUI());      
         btnCadastro.setUI(new BasicButtonUI());
     }
+    
+    public void atualizaTabelaCad(){
+        cadtcc = new CadtccM();
+        try {
+            listaCadtcc = cadtccdao.listaTodos();
+        }catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        String dados[][] = new String[listaCadtcc.size()][4];
+            int i = 0;
+            for (CadtccM cad : listaCadtcc) {
+                dados[i][0] = String.valueOf(cad.getId());
+                dados[i][1] = cad.getAutor();
+                dados[i][2] = cad.getTitulo();
+                dados[i][3] = cad.getIdCurso().getNome();
+
+                i++;
+            }
+            String tituloColuna[] = {"ID", "Autor", "Trabalho", "Curso",};
+            DefaultTableModel tabelacad = new DefaultTableModel();
+            tabelacad.setDataVector(dados, tituloColuna);
+            tblTCC.setModel(new DefaultTableModel(dados, tituloColuna) {
+                boolean[] canEdit = new boolean[]{
+                    false, false, false, false
+                };
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            });
+
+            tblTCC.getColumnModel().getColumn(0).setMaxWidth(0);
+            tblTCC.getColumnModel().getColumn(0).setMinWidth(0);
+            tblTCC.getColumnModel().getColumn(0).setPreferredWidth(0);
+            tblTCC.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tblTCC.getColumnModel().getColumn(2).setPreferredWidth(200);
+            
+            DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+            centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+            tblTCC.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+            tblTCC.setRowHeight(35);
+            tblTCC.updateUI();
+    }
+    
+    public void atualizaTabelaCadBusca(){
+        cadtcc = new CadtccM();
+
+        String dados[][] = new String[listaCadtcc.size()][4];
+            int i = 0;
+            for (CadtccM cad : listaCadtcc) {
+                dados[i][0] = String.valueOf(cad.getId());
+                dados[i][1] = cad.getAutor();
+                dados[i][2] = cad.getTitulo();
+                dados[i][3] = cad.getIdCurso().getNome();
+
+                i++;
+            }
+            String tituloColuna[] = {"ID", "Autor", "Trabalho", "Curso",};
+            DefaultTableModel tabelacad = new DefaultTableModel();
+            tabelacad.setDataVector(dados, tituloColuna);
+            tblTCC.setModel(new DefaultTableModel(dados, tituloColuna) {
+                boolean[] canEdit = new boolean[]{
+                    false, false, false, false
+                };
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            });
+
+            tblTCC.getColumnModel().getColumn(0).setMaxWidth(0);
+            tblTCC.getColumnModel().getColumn(0).setMinWidth(0);
+            tblTCC.getColumnModel().getColumn(0).setPreferredWidth(0);
+            tblTCC.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tblTCC.getColumnModel().getColumn(2).setPreferredWidth(200);
+            
+            DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+            centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+            tblTCC.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+            tblTCC.setRowHeight(35);
+            tblTCC.updateUI();
+    }
+    
+    
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -62,6 +171,7 @@ public class PrincipalView extends javax.swing.JFrame {
         cbxCoorientador = new javax.swing.JCheckBox();
         txtCoorientador = new javax.swing.JTextField();
         lblOrientador1 = new javax.swing.JLabel();
+        txtId = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Cadastro TCC");
@@ -185,7 +295,7 @@ public class PrincipalView extends javax.swing.JFrame {
                         .addComponent(lblFiltro)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbxTipoBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 18, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -288,7 +398,11 @@ public class PrincipalView extends javax.swing.JFrame {
         txtApresentacao.setBackground(new java.awt.Color(248, 248, 248));
         txtApresentacao.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(213, 213, 213)));
         txtApresentacao.setForeground(new java.awt.Color(29, 31, 40));
-        txtApresentacao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM))));
+        try {
+            txtApresentacao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         txtApresentacao.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtApresentacao.setToolTipText("Data em que o TCC foi defendido.");
         txtApresentacao.setDisabledTextColor(new java.awt.Color(47, 50, 65));
@@ -298,7 +412,11 @@ public class PrincipalView extends javax.swing.JFrame {
         txtEntrega.setBackground(new java.awt.Color(248, 248, 248));
         txtEntrega.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(213, 213, 213)));
         txtEntrega.setForeground(new java.awt.Color(29, 31, 40));
-        txtEntrega.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM))));
+        try {
+            txtEntrega.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         txtEntrega.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtEntrega.setToolTipText("Data em que o TCC foi entregue na biblioteca.");
         txtEntrega.setDisabledTextColor(new java.awt.Color(47, 50, 65));
@@ -376,7 +494,7 @@ public class PrincipalView extends javax.swing.JFrame {
                                         .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(txtRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(lblRegistro))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                                         .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(lblAutor)
                                             .addComponent(txtAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -463,9 +581,14 @@ public class PrincipalView extends javax.swing.JFrame {
             .addGroup(pnlFrameLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnlTabela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(pnlDados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(pnlFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlFrameLayout.createSequentialGroup()
+                        .addComponent(pnlDados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(pnlFrameLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         pnlFrameLayout.setVerticalGroup(
             pnlFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -475,7 +598,8 @@ public class PrincipalView extends javax.swing.JFrame {
                     .addComponent(pnlTabela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnlFrameLayout.createSequentialGroup()
                         .addComponent(pnlDados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -513,12 +637,60 @@ public class PrincipalView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        cadtcc = new CadtccM();
+        curso = new CursoM();
         
-        // Salva os dados
+        try {
+            curso = cursodao.buscaNome(cbxCurso.getSelectedItem().toString());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Curso não encontrado", "erro", JOptionPane.WARNING_MESSAGE);
+            Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         if((!txtAutor.getText().equals("")) || (!txtTitulo.getText().equals("")) || (!txtApresentacao.getText().equals(""))
                 || (!txtEntrega.getText().equals("")) || (cbxCurso.getSelectedIndex() != 0) || (txtRegistro.getText().equals(""))){
             
-            //if(txt)
+            if(cbxCoorientador.isSelected()== true && txtCoorientador.getText().isEmpty()){
+                JOptionPane.showMessageDialog(null, "Preencha o Nome do Coordenador", "erro", JOptionPane.WARNING_MESSAGE);
+            
+            }else if(txtId.getText().isEmpty()){
+                // salvar
+                cadtcc.setAutor(txtAutor.getText());
+                cadtcc.setTitulo(txtTitulo.getText());
+                cadtcc.setOrientador(txtOrientador.getText());
+                cadtcc.setCoorientador(txtCoorientador.getText());
+                cadtcc.setIdCurso(curso);
+                cadtcc.setRegistro(txtRegistro.getText());
+                cadtcc.setDataEntrega(txtEntrega.getText());
+                cadtcc.setDataApresentacao(txtApresentacao.getText());
+                //cadtcc.set titulo do projeto;
+                try {
+                    cadtccdao.salvar(cadtcc);
+                    JOptionPane.showMessageDialog(null, "Gravado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+
+                }
+            }else{
+                cadtcc.setId(Integer.valueOf(txtId.getText()));
+                cadtcc.setAutor(txtAutor.getText());
+                cadtcc.setTitulo(txtTitulo.getText());
+                cadtcc.setOrientador(txtOrientador.getText());
+                cadtcc.setCoorientador(txtCoorientador.getText());
+                cadtcc.setIdCurso(curso);
+                cadtcc.setRegistro(txtRegistro.getText());
+                cadtcc.setDataEntrega(txtEntrega.getText());
+                cadtcc.setDataApresentacao(txtApresentacao.getText());
+                
+                try {
+                    cadtccdao.alterar(cadtcc);
+                    JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);       
+                } catch (SQLException ex) {
+                    Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+                }
+            }
             
 
             btnSalvar.setEnabled(false);
@@ -546,8 +718,8 @@ public class PrincipalView extends javax.swing.JFrame {
                 txtTitulo.setText("");
                 txtOrientador.setText("");
                 txtCoorientador.setText("");
-                txtApresentacao.setText("");
-                txtEntrega.setText("");
+                txtApresentacao.setValue("");
+                txtEntrega.setValue("");
                 cbxCurso.setSelectedIndex(0);
                 cbxCoorientador.setSelected(false);
                 
@@ -581,6 +753,14 @@ public class PrincipalView extends javax.swing.JFrame {
         // Excluir
         int res = JOptionPane.showConfirmDialog(null,"Você realmente deseja excluir este cadastro?", "Excluir Cadastro", JOptionPane.YES_NO_OPTION);
             if(res == JOptionPane.YES_OPTION){
+                
+                cadtcc.setId(Integer.valueOf(txtId.getText()));
+            try {
+                cadtccdao.excluir(cadtcc);
+            } catch (SQLException ex) {
+                Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+            }
                 
                 txtRegistro.setText("Ultimo Num");
                 txtAutor.setText("");
@@ -652,6 +832,7 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JTextField txtBusca;
     private javax.swing.JTextField txtCoorientador;
     private javax.swing.JFormattedTextField txtEntrega;
+    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtOrientador;
     private javax.swing.JTextField txtRegistro;
     private javax.swing.JTextField txtTitulo;

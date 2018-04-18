@@ -17,7 +17,6 @@ public class CadtccM {
     private String Orientador;
     private String Coorientador;
     private CursoM IdCurso;
-    private String Ano;
     private String Registro;
     private String DataEntrega;
     private String DataApresentacao;
@@ -26,12 +25,13 @@ public class CadtccM {
     public CadtccM() {
     }
 
-    public CadtccM(int Id, String Autor, String Titulo, CursoM IdCurso, String Ano, String Registro, String DataEntrega, String DataApresentacao, String Trabalho) {
+    public CadtccM(int Id, String Autor, String Titulo, String Orientador, String Coorientador, CursoM IdCurso, String Registro, String DataEntrega, String DataApresentacao, String Trabalho) {
         this.Id = Id;
         this.Autor = Autor;
         this.Titulo = Titulo;
+        this.Orientador = Orientador;
+        this.Coorientador = Coorientador;
         this.IdCurso = IdCurso;
-        this.Ano = Ano;
         this.Registro = Registro;
         this.DataEntrega = DataEntrega;
         this.DataApresentacao = DataApresentacao;
@@ -62,20 +62,28 @@ public class CadtccM {
         this.Titulo = Titulo;
     }
 
+    public String getOrientador() {
+        return Orientador;
+    }
+
+    public void setOrientador(String Orientador) {
+        this.Orientador = Orientador;
+    }
+
+    public String getCoorientador() {
+        return Coorientador;
+    }
+
+    public void setCoorientador(String Coorientador) {
+        this.Coorientador = Coorientador;
+    }
+
     public CursoM getIdCurso() {
         return IdCurso;
     }
 
     public void setIdCurso(CursoM IdCurso) {
         this.IdCurso = IdCurso;
-    }
-
-    public String getAno() {
-        return Ano;
-    }
-
-    public void setAno(String Ano) {
-        this.Ano = Ano;
     }
 
     public String getRegistro() {
@@ -109,6 +117,7 @@ public class CadtccM {
     public void setTrabalho(String Trabalho) {
         this.Trabalho = Trabalho;
     }
-
+    
+    
     
 }
