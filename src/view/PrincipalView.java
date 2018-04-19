@@ -7,10 +7,14 @@ package view;
 
 import Dao.CadtccD;
 import Dao.CursoD;
+import Dao.LogD;
 import Model.CadtccM;
 import Model.CursoM;
+import Model.LogM;
 import Model.UsuarioM;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -35,6 +39,9 @@ public class PrincipalView extends javax.swing.JFrame {
     CursoM curso = new CursoM();
     CursoD cursodao = new CursoD();
     List<CursoM> listaCurso = new ArrayList<>();
+    
+    LogM log = new LogM();
+    LogD logdao = new LogD();
 
     public PrincipalView() {
         initComponents();
@@ -234,6 +241,11 @@ public class PrincipalView extends javax.swing.JFrame {
 
         cbxTipoBusca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbxTipoBusca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Autor", "Título", "Registro", "Apresentação", "Entrega" }));
+        cbxTipoBusca.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxTipoBuscaItemStateChanged(evt);
+            }
+        });
 
         lblFiltro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblFiltro.setText("Filtro");
@@ -661,6 +673,7 @@ public class PrincipalView extends javax.swing.JFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         cadtcc = new CadtccM();
         curso = new CursoM();
+        log = new LogM();
         
         try {
             curso = cursodao.buscaNome(cbxCurso.getSelectedItem().toString());
@@ -686,8 +699,17 @@ public class PrincipalView extends javax.swing.JFrame {
                 cadtcc.setDataEntrega(txtEntrega.getText());
                 cadtcc.setDataApresentacao(txtApresentacao.getText());
                 //cadtcc.set titulo do projeto;
+                
+                // log
+                log.setAcao("Salvando TCC");
+                //log.setIdUsuario();
+                log.setHora(new SimpleDateFormat("HH:MM").format(new Date(System.currentTimeMillis())));
+                log.setData(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
+                log.setTituloTrabalho(txtTitulo.getText());
+                
                 try {
                     cadtccdao.salvar(cadtcc);
+                    logdao.Salvar(log);
                     JOptionPane.showMessageDialog(null, "Gravado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 } catch (SQLException ex) {
                     Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
@@ -833,7 +855,7 @@ public class PrincipalView extends javax.swing.JFrame {
         }else{
                     
             try {
-                listaCadtcc = cadtccdao.listaAutor(txtBusca.getText());
+                listaCadtcc = cadtccdao.listaAutor(txtBusca.getText(), cbxCursoBusca.getSelectedItem().toString(), cbxTipoBusca.getSelectedItem().toString());
 
                 if(listaCadtcc == null){
                     JOptionPane.showMessageDialog(null, "Nenhum Cliente encontrado!","", JOptionPane.WARNING_MESSAGE);
@@ -846,6 +868,10 @@ public class PrincipalView extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_txtBuscaCaretUpdate
+
+    private void cbxTipoBuscaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxTipoBuscaItemStateChanged
+        txtBusca.setText("");
+    }//GEN-LAST:event_cbxTipoBuscaItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

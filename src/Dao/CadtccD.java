@@ -106,13 +106,35 @@ public class CadtccD {
         return listaCadtcc;
     }
     
-    public List<CadtccM> listaAutor(String nome) throws SQLException{
+    public List<CadtccM> listaAutor(String nome, String curso, String tipo) throws SQLException{
         PreparedStatement pst;
-        String sql;
+        String sql = null;
         List<CadtccM> listaCadtcc = new ArrayList<>();
-        sql = "select * from Cadtcc where autor = %?%";
         pst = Conexao.getInstance().prepareStatement(sql);
-        pst.setString(1, nome);
+        sql = "select * from Cadtcc ";
+        
+        if(tipo.equals("Autor")){
+            sql = sql+"where autor like %?%";
+            pst.setString(1, nome);
+        }else if(tipo.equals("Título")){
+            sql = sql+"where titulo like %?%";
+            pst.setString(1, nome);
+        }else if(tipo.equals("Registro")){
+            sql = sql+"where registro like %?%";
+            pst.setString(1, nome);
+        }else if(tipo.equals("Apresentação")){
+            sql = sql+"where dataapresentacao like %?%";
+            pst.setString(1, nome);
+        }else if(tipo.equals("Entrega")){
+            sql = sql+"where dataentrega like %?%";
+            pst.setString(1, nome);
+        }
+        
+        if(!curso.equals("todos")){
+            sql = sql+ " and curso = ?";
+            pst.setString(2, curso);
+        }
+        
         ResultSet rs = pst.executeQuery();
         
         while(rs.next()){
