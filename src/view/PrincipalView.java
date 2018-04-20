@@ -60,6 +60,7 @@ public class PrincipalView extends javax.swing.JFrame {
         txtRegistro.setText("");
         txtEntrega.setText("");
         txtApresentacao.setText("");
+        txtId.setVisible(false);
         
         btnSalvar.setUI(new BasicButtonUI());
         btnExcluir.setUI(new BasicButtonUI());
@@ -271,6 +272,11 @@ public class PrincipalView extends javax.swing.JFrame {
                 "Autor", "Título", "Registro", "Curso", "Apresentação", "Entrega"
             }
         ));
+        tblTCC.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblTCCMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblTCC);
 
         cbxTipoBusca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -458,6 +464,7 @@ public class PrincipalView extends javax.swing.JFrame {
         cbxCurso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Item 2", "Item 3", "Item 4" }));
         cbxCurso.setToolTipText("Curso em que o aluno está matriculado.");
         cbxCurso.setBorder(null);
+        cbxCurso.setEnabled(false);
 
         lblApresentacao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblApresentacao.setForeground(new java.awt.Color(29, 31, 40));
@@ -642,6 +649,8 @@ public class PrincipalView extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        txtId.setEnabled(false);
+
         javax.swing.GroupLayout pnlFrameLayout = new javax.swing.GroupLayout(pnlFrame);
         pnlFrame.setLayout(pnlFrameLayout);
         pnlFrameLayout.setHorizontalGroup(
@@ -687,12 +696,14 @@ public class PrincipalView extends javax.swing.JFrame {
             txtApresentacao.setEnabled(true);
             txtEntrega.setEnabled(true);
             cbxCoorientador.setEnabled(true);
+            cbxCurso.setEnabled(true);
             
             if(cbxCoorientador.isSelected()){
                 txtCoorientador.setEnabled(true);
             }
             else{
                 txtCoorientador.setEnabled(false);
+                txtCoorientador.setText("");
             }
             
             btnSalvar.setEnabled(true);
@@ -714,8 +725,7 @@ public class PrincipalView extends javax.swing.JFrame {
             Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        if((!txtAutor.getText().equals("")) || (!txtTitulo.getText().equals("")) || (!txtApresentacao.getText().equals("  /  /    "))
-                || (!txtEntrega.getText().equals("")) || (cbxCurso.getSelectedIndex() != 0) || (txtRegistro.getText().equals(""))){
+        if((!txtAutor.getText().isEmpty()) || (!txtOrientador.getText().isEmpty()) ){
             
             if(cbxCoorientador.isSelected()== true && txtCoorientador.getText().isEmpty()){
                 JOptionPane.showMessageDialog(null, "Preencha o Nome do Coordenador", "erro", JOptionPane.WARNING_MESSAGE);
@@ -888,6 +898,7 @@ public class PrincipalView extends javax.swing.JFrame {
                 Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
             }
+                txtRegistro.setText("");
                 txtAutor.setText("");
                 txtTitulo.setText("");
                 txtOrientador.setText("");
@@ -920,6 +931,7 @@ public class PrincipalView extends javax.swing.JFrame {
         }
         else{
             txtCoorientador.setEnabled(false);
+            txtCoorientador.setText("");
         }
     }//GEN-LAST:event_cbxCoorientadorStateChanged
 
@@ -947,6 +959,55 @@ public class PrincipalView extends javax.swing.JFrame {
     private void cbxTipoBuscaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxTipoBuscaItemStateChanged
         txtBusca.setText("");
     }//GEN-LAST:event_cbxTipoBuscaItemStateChanged
+
+    private void tblTCCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTCCMouseClicked
+        limparcampos();
+        cadtcc = new CadtccM();
+        txtId.setText(tblTCC.getValueAt(tblTCC.getSelectedRow(),0).toString());
+        int idBusca = Integer.valueOf(txtId.getText());
+        
+        try {
+            cadtcc = cadtccdao.buscaId(idBusca);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        tblTCC.getTableHeader().setReorderingAllowed(false);
+        txtApresentacao.setText(cadtcc.getDataApresentacao());
+        txtAutor.setText(cadtcc.getAutor());
+        txtCoorientador.setText(cadtcc.getCoorientador());
+        txtEntrega.setText(cadtcc.getDataEntrega());
+        txtId.setText(String.valueOf(cadtcc.getId()));
+        txtRegistro.setText(cadtcc.getRegistro());
+        txtTitulo.setText(cadtcc.getTitulo());
+        cbxCurso.setSelectedIndex(cadtcc.getIdCurso().getId());
+        //(cadtcc.getTrabalho());
+        
+        if (!(cadtcc.getCoorientador() == null)) {
+            cbxCoorientador.setSelected(true);
+            txtOrientador.setText(cadtcc.getCoorientador());
+        }else{
+            cbxCoorientador.setSelected(false);
+            txtCoorientador.setText("");
+        }
+        
+        btnEditar.setEnabled(true);
+        btnExcluir.setEnabled(false);
+        btnSalvar.setEnabled(false);
+        
+        txtApresentacao.setEnabled(false);
+        txtAutor.setEnabled(false);
+        txtCoorientador.setEnabled(false);
+        txtEntrega.setEnabled(false);
+        txtId.setEnabled(false);
+        txtRegistro.setEnabled(false);
+        txtTitulo.setEnabled(false);
+        txtOrientador.setEnabled(false);
+        txtCoorientador.setEnabled(false);
+        cbxCurso.setEnabled(false);
+        cbxCoorientador.setEnabled(false);
+        
+    }//GEN-LAST:event_tblTCCMouseClicked
 
     public void limparcampos(){
     txtApresentacao.setValue("");

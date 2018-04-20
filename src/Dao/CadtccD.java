@@ -51,6 +51,7 @@ public class CadtccD {
         pst.close();
     }
     
+    
     public void alterar(CadtccM cadtcc) throws SQLException{
         PreparedStatement pst;
         String sql;
@@ -63,7 +64,7 @@ public class CadtccD {
                         + "registro  = ?, "
                         + "dataentrega  = ?, "
                         + "dataapresentacao  = ?, "
-                        + "trabalho  = ?, "
+                        + "trabalho  = ? "
 
                         + "where id = ?";
         pst = Conexao.getInstance().prepareStatement(sql);
@@ -80,6 +81,7 @@ public class CadtccD {
         pst.execute();
         pst.close();
      }
+    
     
     public List<CadtccM> listaTodos() throws SQLException{
         PreparedStatement pst;
@@ -106,12 +108,13 @@ public class CadtccD {
         return listaCadtcc;
     }
     
+    
     public List<CadtccM> listaAutor(String name, String curso, String tipo) throws SQLException{
         PreparedStatement pst;
-        String sql = null;
+        String sql;
         String nome = "%"+name+"%";
         List<CadtccM> listaCadtcc = new ArrayList<>();
-        sql = "select * from Cadtcc, Curso ";
+        sql = "select * from Cadtcc t inner join Curso c on t.idcurso = c.id ";
         if(tipo.equals("Autor")){
             sql = sql+"where autor like ?";
         }else if(tipo.equals("Título")){
@@ -124,14 +127,14 @@ public class CadtccD {
             sql = sql+"where dataentrega like ?";
         }
         
-        if(!curso.equals("todos")){
-            sql = sql+ " and curso = ?";
+        if(!curso.equals("Todos")){
+            sql = sql+ " and nome = ?";
             
         }
         
         pst = Conexao.getInstance().prepareStatement(sql);
         pst.setString(1, nome);
-        if(!curso.equals("todos")){
+        if(!curso.equals("Todos")){
             pst.setString(2, curso);
             
         }
@@ -155,13 +158,47 @@ public class CadtccD {
         return listaCadtcc;
     }
     
+    
     public CadtccM buscaUltimoRegistro() throws SQLException{
-        int i = 0;
         PreparedStatement pst;
         String sql;
-        CadtccM cadtcc = null;        
+        CadtccM cadtcc = null;
+        int i = 0;        
         sql = "select * from cadtcc order by id desc";
         pst = Conexao.getInstance().prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+        while(rs.next()){
+            cadtcc = new CadtccM(
+                            rs.getInt("id"),
+                            rs.getString("autor"),
+                            rs.getString("titulo"),
+                            rs.getString("orientador"),
+                            rs.getString("coorientador"),
+                            cursodao.busca(rs.getInt("idcurso")),
+                            rs.getString("registro"),
+                            rs.getString("dataentrega"),
+                            rs.getString("dataapresentacao"),
+                            rs.getString("trabalho"));
+            i++;
+        }
+        pst.close();
+        
+        if(i==0){
+            return null;
+        }else{
+            return cadtcc;
+        }
+    }
+    
+    
+    public CadtccM buscaId(int Id) throws SQLException{
+        PreparedStatement pst;
+        String sql;
+        CadtccM cadtcc = null;
+        int i = 0;        
+        sql = "select * from cadtcc where id = ?";
+        pst = Conexao.getInstance().prepareStatement(sql);
+        pst.setInt(1, Id);
         ResultSet rs = pst.executeQuery();
         while(rs.next()){
             cadtcc = new CadtccM(
