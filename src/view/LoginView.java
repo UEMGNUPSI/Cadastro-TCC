@@ -5,8 +5,13 @@
  */
 package view;
 
+import Dao.LogD;
 import Dao.UsuarioD;
+import Model.LogM;
 import Model.UsuarioM;
+import java.awt.event.KeyEvent;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicButtonUI;
 
@@ -21,6 +26,10 @@ public class LoginView extends javax.swing.JFrame {
     
     UsuarioM usuarioM;
     UsuarioD usuarioDAO;
+    
+    LogM log = new LogM();
+    LogD logdao = new LogD();
+    
     
     public LoginView() {
         initComponents();
@@ -180,16 +189,12 @@ public class LoginView extends javax.swing.JFrame {
     }//GEN-LAST:event_txtLoginActionPerformed
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        
         usuarioM = null;
         try {
             if (txtLogin.getText().isEmpty()) {
-                
                 JOptionPane.showMessageDialog(null, "O usuário deve ser preenchido.", "Alerta", JOptionPane.INFORMATION_MESSAGE);
                 txtLogin.requestFocus();
-
             } else if (txtSenha.getText().isEmpty()) {
-                
                 JOptionPane.showMessageDialog(null, "A senha deve ser preenchida.", "Alerta", JOptionPane.INFORMATION_MESSAGE);
                 txtSenha.requestFocus();
             } else {
@@ -202,20 +207,22 @@ public class LoginView extends javax.swing.JFrame {
                 }else{
        
                     PrincipalView principal = new PrincipalView(usuarioM);
-                    this.dispose();
-                    
-                }
-                
+                    log.setAcao("Usuario logando");
+                    log.setIdUsuario(usuarioM);
+                    log.setHora(new SimpleDateFormat("HH:MM").format(new Date(System.currentTimeMillis())));
+                    log.setData(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
+                    log.setTituloTrabalho("");
+                    logdao.Salvar(log);
+                    this.dispose();   
+                }  
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Usuário não encontrado, tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
             txtLogin.setText("");
             txtSenha.setText("");
             txtLogin.requestFocus();
-            ex.printStackTrace();
-            
+            ex.printStackTrace();   
         }
-       
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
@@ -223,18 +230,48 @@ public class LoginView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void txtLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLoginKeyPressed
-        if(evt.getKeyCode() == 10){
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             txtSenha.requestFocus();
             txtSenha.selectAll();
         }
     }//GEN-LAST:event_txtLoginKeyPressed
 
     private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed
-        if(evt.getKeyCode() == 10){
-            PrincipalView pri = new PrincipalView();
-            
-            pri.setVisible(true);
-            this.dispose();
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        usuarioM = null;
+        try {
+            if (txtLogin.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "O usuário deve ser preenchido.", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+                txtLogin.requestFocus();
+            } else if (txtSenha.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "A senha deve ser preenchida.", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+                txtSenha.requestFocus();
+            } else {
+                usuarioM = UsuarioD.valida(txtLogin.getText(), txtSenha.getText());
+                if(usuarioM == null){
+                    JOptionPane.showMessageDialog(null, "Usuário não encontrado, tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    txtLogin.setText("");
+                    txtSenha.setText("");
+                    txtLogin.requestFocus();
+                }else{
+       
+                    PrincipalView principal = new PrincipalView(usuarioM);
+                    log.setAcao("Usuario logando");
+                    log.setIdUsuario(usuarioM);
+                    log.setHora(new SimpleDateFormat("HH:MM").format(new Date(System.currentTimeMillis())));
+                    log.setData(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
+                    log.setTituloTrabalho("");
+                    logdao.Salvar(log);
+                    this.dispose();   
+                }  
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Usuário não encontrado, tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
+            txtLogin.setText("");
+            txtSenha.setText("");
+            txtLogin.requestFocus();
+            ex.printStackTrace();   
+        }
         }
     }//GEN-LAST:event_txtSenhaKeyPressed
 

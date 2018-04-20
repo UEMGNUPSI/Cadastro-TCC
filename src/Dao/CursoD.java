@@ -97,7 +97,7 @@ public class CursoD {
          ResultSet rs = pst.executeQuery();
     
          while (rs.next()) {
-        listaCurso.add(new CursoM(rs.getInt("codigo"), rs.getString("nome")));
+        listaCurso.add(new CursoM(rs.getInt("id"), rs.getString("nome")));
         }
         pst.close();
         return listaCurso;

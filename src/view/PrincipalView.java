@@ -42,11 +42,14 @@ public class PrincipalView extends javax.swing.JFrame {
     
     LogM log = new LogM();
     LogD logdao = new LogD();
+    
+    UsuarioM usuariologado = new UsuarioM();
 
-    public PrincipalView() {
+    public PrincipalView(UsuarioM usuario) {
         initComponents();
         this.setVisible(true);
         atualizaTabelaCad();
+        atualizaBoxCurso();
         
         txtAutor.setText("");
         txtTitulo.setText("");
@@ -57,15 +60,20 @@ public class PrincipalView extends javax.swing.JFrame {
         txtEntrega.setText("");
         txtApresentacao.setText("");
         
-        
         btnSalvar.setUI(new BasicButtonUI());
         btnExcluir.setUI(new BasicButtonUI());
         btnEditar.setUI(new BasicButtonUI());      
         btnCadastro.setUI(new BasicButtonUI());
-    }
-
-    PrincipalView(UsuarioM usuarioM) {
-        PrincipalView principal = new PrincipalView();
+        
+        if(usuario.getAdmin() == true){
+            // btn true
+            usuariologado = usuario;
+        }else if(usuario.getAdmin() == false){
+            // btn false
+            usuariologado = usuario;
+        }
+        
+        
     }
     
     public void atualizaTabelaCad(){
@@ -153,7 +161,22 @@ public class PrincipalView extends javax.swing.JFrame {
             tblTCC.updateUI();
     }
     
-    
+    public void atualizaBoxCurso(){
+       
+        cbxCurso.removeAllItems();
+        cbxCurso.addItem("Selecione");
+        
+        try {
+            listaCurso = cursodao.ListaCurso();
+        } catch (SQLException ex) {
+            Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String dados[][] = new String[listaCurso.size()][5];
+        for (CursoM curs : listaCurso) {
+            cbxCurso.addItem(curs.getNome());
+        }
+    } 
     
     
     @SuppressWarnings("unchecked")
@@ -666,8 +689,6 @@ public class PrincipalView extends javax.swing.JFrame {
             btnEditar.setEnabled(false);
             
         }
-        
-        
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
@@ -682,7 +703,7 @@ public class PrincipalView extends javax.swing.JFrame {
             Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        if((!txtAutor.getText().equals("")) || (!txtTitulo.getText().equals("")) || (!txtApresentacao.getText().equals(""))
+        if((!txtAutor.getText().equals("")) || (!txtTitulo.getText().equals("")) || (!txtApresentacao.getText().equals("  /  /    "))
                 || (!txtEntrega.getText().equals("")) || (cbxCurso.getSelectedIndex() != 0) || (txtRegistro.getText().equals(""))){
             
             if(cbxCoorientador.isSelected()== true && txtCoorientador.getText().isEmpty()){
@@ -702,20 +723,23 @@ public class PrincipalView extends javax.swing.JFrame {
                 
                 // log
                 log.setAcao("Salvando TCC");
-                //log.setIdUsuario();
+                log.setIdUsuario(usuariologado);
                 log.setHora(new SimpleDateFormat("HH:MM").format(new Date(System.currentTimeMillis())));
                 log.setData(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
                 log.setTituloTrabalho(txtTitulo.getText());
+                    
+                
                 
                 try {
                     cadtccdao.salvar(cadtcc);
                     logdao.Salvar(log);
                     JOptionPane.showMessageDialog(null, "Gravado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    atualizaTabelaCad();
                 } catch (SQLException ex) {
                     Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
                     JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
-
                 }
+                limparcampos();
             }else{
                 cadtcc.setId(Integer.valueOf(txtId.getText()));
                 cadtcc.setAutor(txtAutor.getText());
@@ -727,16 +751,23 @@ public class PrincipalView extends javax.swing.JFrame {
                 cadtcc.setDataEntrega(txtEntrega.getText());
                 cadtcc.setDataApresentacao(txtApresentacao.getText());
                 
+                log.setAcao("Alterando TCC");
+                log.setIdUsuario(usuariologado);
+                log.setHora(new SimpleDateFormat("HH:MM").format(new Date(System.currentTimeMillis())));
+                log.setData(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
+                log.setTituloTrabalho(txtTitulo.getText());
+                
                 try {
                     cadtccdao.alterar(cadtcc);
-                    JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);       
+                    logdao.Salvar(log);
+                    JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    atualizaTabelaCad();
                 } catch (SQLException ex) {
                     Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
                     JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
                 }
+                limparcampos();
             }
-            
-
             btnSalvar.setEnabled(false);
             btnExcluir.setEnabled(false);
             btnEditar.setEnabled(true);
@@ -744,7 +775,6 @@ public class PrincipalView extends javax.swing.JFrame {
         else{
             JOptionPane.showMessageDialog(null, "Existem campos não preenchidos.");
         }
-        
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroActionPerformed
@@ -763,10 +793,11 @@ public class PrincipalView extends javax.swing.JFrame {
                     Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if(cadtcc == null){
-                
+                    txtRegistro.setText("1");
                 }else{
                     txtRegistro.setText(cadtcc.getRegistro());
                 }
+                
                 txtAutor.setText("");
                 txtTitulo.setText("");
                 txtOrientador.setText("");
@@ -774,18 +805,20 @@ public class PrincipalView extends javax.swing.JFrame {
                 txtApresentacao.setValue("");
                 txtEntrega.setValue("");
                 cbxCurso.setSelectedIndex(0);
+                cbxCoorientador.setEnabled(true);
                 cbxCoorientador.setSelected(false);
                 
                 btnSalvar.setEnabled(true);
                 btnExcluir.setEnabled(false);
                 btnEditar.setEnabled(false);
             }
-        }
-        else{
-            txtRegistro.setEditable(true);
+        }else{
+            txtRegistro.setEnabled(true);
             txtAutor.setEnabled(true);
             txtTitulo.setEnabled(true);
             txtOrientador.setEnabled(true);
+            cbxCoorientador.setEnabled(true);
+            cbxCoorientador.setSelected(false);
             
             // aqui vai ter que fazer um esquema com o banco para ver se tem um cadastro de coorientado. Caso tenha setSelected(true), caso não setSelected(false).
             if(cbxCoorientador.isSelected()){
@@ -798,6 +831,30 @@ public class PrincipalView extends javax.swing.JFrame {
             txtApresentacao.setEnabled(true);
             txtEntrega.setEnabled(true);
             cbxCurso.setEnabled(true);
+            try {
+                    cadtcc = cadtccdao.buscaUltimoRegistro();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if(cadtcc == null){
+                    txtRegistro.setText("1");
+                }else{
+                    txtRegistro.setText(cadtcc.getRegistro());
+                }
+                
+                txtAutor.setText("");
+                txtTitulo.setText("");
+                txtOrientador.setText("");
+                txtCoorientador.setText("");
+                txtApresentacao.setValue("");
+                txtEntrega.setValue("");
+                cbxCurso.setSelectedIndex(0);
+                cbxCoorientador.setEnabled(true);
+                cbxCoorientador.setSelected(false);
+                
+                btnSalvar.setEnabled(true);
+                btnExcluir.setEnabled(false);
+                btnEditar.setEnabled(false);
         }
     }//GEN-LAST:event_btnCadastroActionPerformed
 
@@ -809,6 +866,13 @@ public class PrincipalView extends javax.swing.JFrame {
                 cadtcc.setId(Integer.valueOf(txtId.getText()));
             try {
                 cadtccdao.excluir(cadtcc);
+                log.setAcao("Excluindo TCC");
+                log.setIdUsuario(usuariologado);
+                log.setHora(new SimpleDateFormat("HH:MM").format(new Date(System.currentTimeMillis())));
+                log.setData(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
+                log.setTituloTrabalho(txtTitulo.getText());
+                logdao.Salvar(log);
+                atualizaTabelaCad();
             } catch (SQLException ex) {
                 Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
@@ -873,6 +937,17 @@ public class PrincipalView extends javax.swing.JFrame {
         txtBusca.setText("");
     }//GEN-LAST:event_cbxTipoBuscaItemStateChanged
 
+    public void limparcampos(){
+    txtApresentacao.setValue("");
+    txtAutor.setText("");
+    txtBusca.setText("");
+    txtCoorientador.setText("");
+    txtEntrega.setValue("");
+    txtId.setText("");
+    txtOrientador.setText("");
+    txtRegistro.setText("");
+    txtTitulo.setText("");
+    }   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastro;
