@@ -50,6 +50,7 @@ public class PrincipalView extends javax.swing.JFrame {
         this.setVisible(true);
         atualizaTabelaCad();
         atualizaBoxCurso();
+        atualizaBoxCursobusca();
         
         txtAutor.setText("");
         txtTitulo.setText("");
@@ -162,19 +163,29 @@ public class PrincipalView extends javax.swing.JFrame {
     }
     
     public void atualizaBoxCurso(){
-       
         cbxCurso.removeAllItems();
         cbxCurso.addItem("Selecione");
-        
         try {
             listaCurso = cursodao.ListaCurso();
         } catch (SQLException ex) {
             Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         String dados[][] = new String[listaCurso.size()][5];
         for (CursoM curs : listaCurso) {
             cbxCurso.addItem(curs.getNome());
+        }
+    } 
+    public void atualizaBoxCursobusca(){
+        cbxCursoBusca.removeAllItems();
+        cbxCursoBusca.addItem("Todos");
+        try {
+            listaCurso = cursodao.ListaCurso();
+        } catch (SQLException ex) {
+            Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String dados[][] = new String[listaCurso.size()][5];
+        for (CursoM curs : listaCurso) {
+            cbxCursoBusca.addItem(curs.getNome());
         }
     } 
     

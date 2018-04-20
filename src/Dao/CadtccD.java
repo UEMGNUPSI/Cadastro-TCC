@@ -106,33 +106,34 @@ public class CadtccD {
         return listaCadtcc;
     }
     
-    public List<CadtccM> listaAutor(String nome, String curso, String tipo) throws SQLException{
+    public List<CadtccM> listaAutor(String name, String curso, String tipo) throws SQLException{
         PreparedStatement pst;
         String sql = null;
+        String nome = "%"+name+"%";
         List<CadtccM> listaCadtcc = new ArrayList<>();
-        pst = Conexao.getInstance().prepareStatement(sql);
-        sql = "select * from Cadtcc ";
-        
+        sql = "select * from Cadtcc, Curso ";
         if(tipo.equals("Autor")){
-            sql = sql+"where autor like %?%";
-            pst.setString(1, nome);
+            sql = sql+"where autor like ?";
         }else if(tipo.equals("Título")){
-            sql = sql+"where titulo like %?%";
-            pst.setString(1, nome);
+            sql = sql+"where titulo like ?";
         }else if(tipo.equals("Registro")){
-            sql = sql+"where registro like %?%";
-            pst.setString(1, nome);
+            sql = sql+"where registro like ?";
         }else if(tipo.equals("Apresentação")){
-            sql = sql+"where dataapresentacao like %?%";
-            pst.setString(1, nome);
+            sql = sql+"where dataapresentacao like ?";
         }else if(tipo.equals("Entrega")){
-            sql = sql+"where dataentrega like %?%";
-            pst.setString(1, nome);
+            sql = sql+"where dataentrega like ?";
         }
         
         if(!curso.equals("todos")){
             sql = sql+ " and curso = ?";
+            
+        }
+        
+        pst = Conexao.getInstance().prepareStatement(sql);
+        pst.setString(1, nome);
+        if(!curso.equals("todos")){
             pst.setString(2, curso);
+            
         }
         
         ResultSet rs = pst.executeQuery();
