@@ -195,8 +195,10 @@ public class PrincipalView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dlgUsuario = new javax.swing.JDialog();
         pnlUsuario = new javax.swing.JPanel();
         lblUsuario = new javax.swing.JLabel();
+        btnUsuario = new javax.swing.JButton();
         pnlFrame = new javax.swing.JPanel();
         pnlTabela = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -232,6 +234,17 @@ public class PrincipalView extends javax.swing.JFrame {
         lblOrientador1 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
 
+        javax.swing.GroupLayout dlgUsuarioLayout = new javax.swing.GroupLayout(dlgUsuario.getContentPane());
+        dlgUsuario.getContentPane().setLayout(dlgUsuarioLayout);
+        dlgUsuarioLayout.setHorizontalGroup(
+            dlgUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        dlgUsuarioLayout.setVerticalGroup(
+            dlgUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Cadastro TCC");
         setMaximumSize(new java.awt.Dimension(1090, 713));
@@ -250,6 +263,16 @@ public class PrincipalView extends javax.swing.JFrame {
         lblUsuario.setText("Nome do Usuário");
         lblUsuario.setToolTipText("");
         pnlUsuario.add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 60));
+
+        btnUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagens/btnUsuario.png"))); // NOI18N
+        btnUsuario.setBorder(null);
+        btnUsuario.setOpaque(false);
+        btnUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsuarioActionPerformed(evt);
+            }
+        });
+        pnlUsuario.add(btnUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 0, 220, 60));
 
         getContentPane().add(pnlUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1090, 60));
 
@@ -369,7 +392,7 @@ public class PrincipalView extends javax.swing.JFrame {
                         .addComponent(lblFiltro)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbxTipoBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -945,7 +968,7 @@ public class PrincipalView extends javax.swing.JFrame {
                 listaCadtcc = cadtccdao.listaAutor(txtBusca.getText(), cbxCursoBusca.getSelectedItem().toString(), cbxTipoBusca.getSelectedItem().toString());
 
                 if(listaCadtcc == null){
-                    JOptionPane.showMessageDialog(null, "Nenhum Cliente encontrado!","", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Nenhum dado encontrado!","", JOptionPane.WARNING_MESSAGE);
                     atualizaTabelaCad();
                 }else{
                     atualizaTabelaCadBusca();
@@ -1009,6 +1032,10 @@ public class PrincipalView extends javax.swing.JFrame {
         
     }//GEN-LAST:event_tblTCCMouseClicked
 
+    private void btnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUsuarioActionPerformed
+
     public void limparcampos(){
     txtApresentacao.setValue("");
     txtAutor.setText("");
@@ -1026,10 +1053,12 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JButton btnUsuario;
     private javax.swing.JCheckBox cbxCoorientador;
     private javax.swing.JComboBox<String> cbxCurso;
     private javax.swing.JComboBox<String> cbxCursoBusca;
     private javax.swing.JComboBox<String> cbxTipoBusca;
+    private javax.swing.JDialog dlgUsuario;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblApresentacao;
     private javax.swing.JLabel lblAutor;
