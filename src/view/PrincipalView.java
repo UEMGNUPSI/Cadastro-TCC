@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import Dao.CadtccD;
@@ -23,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.plaf.basic.BasicListUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -44,6 +40,8 @@ public class PrincipalView extends javax.swing.JFrame {
     LogD logdao = new LogD();
     
     UsuarioM usuariologado = new UsuarioM();
+    
+    
 
     public PrincipalView(UsuarioM usuario) {
         initComponents();
@@ -64,8 +62,15 @@ public class PrincipalView extends javax.swing.JFrame {
         
         btnSalvar.setUI(new BasicButtonUI());
         btnExcluir.setUI(new BasicButtonUI());
-        btnEditar.setUI(new BasicButtonUI());      
+        btnEditar.setUI(new BasicButtonUI());
+        btnSubir.setUI(new BasicButtonUI());
         btnCadastro.setUI(new BasicButtonUI());
+        btnUsuarios.setUI(new BasicButtonUI());
+        btnCursos.setUI(new BasicButtonUI());
+        btnSalvarUsuario.setUI(new BasicButtonUI());
+        lstUsuarios.setUI(new BasicListUI());        
+        btnSalvarCurso.setUI(new BasicButtonUI());
+        lstCursos.setUI(new BasicListUI());
         
         if(usuario.getAdmin() == true){
             // btn true
@@ -196,9 +201,38 @@ public class PrincipalView extends javax.swing.JFrame {
     private void initComponents() {
 
         dlgUsuario = new javax.swing.JDialog();
+        pnlTitulo = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        pnlUsuarios = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        lstUsuarios = new javax.swing.JList<>();
+        jLabel2 = new javax.swing.JLabel();
+        pnlNovoUsuario = new javax.swing.JPanel();
+        lblMASP = new javax.swing.JLabel();
+        txtMasp = new javax.swing.JTextField();
+        lblNomeUsuario = new javax.swing.JLabel();
+        txtNome = new javax.swing.JTextField();
+        lblSenhaUsuario = new javax.swing.JLabel();
+        txtSenha = new javax.swing.JPasswordField();
+        btnSalvarUsuario = new javax.swing.JButton();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        lblConfirmarSenhaUsuario = new javax.swing.JLabel();
+        txtConfirmarSenha = new javax.swing.JPasswordField();
+        dlgCurso = new javax.swing.JDialog();
+        pnlTitulo1 = new javax.swing.JPanel();
+        lblTituloCurso = new javax.swing.JLabel();
+        pnlUsuarios1 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        lstCursos = new javax.swing.JList<>();
+        jLabel4 = new javax.swing.JLabel();
+        pnlNovoUsuario1 = new javax.swing.JPanel();
+        lblNomeCurso = new javax.swing.JLabel();
+        txtNomeCurso = new javax.swing.JTextField();
+        btnSalvarCurso = new javax.swing.JButton();
         pnlUsuario = new javax.swing.JPanel();
         lblUsuario = new javax.swing.JLabel();
-        btnUsuario = new javax.swing.JButton();
+        btnUsuarios = new javax.swing.JButton();
+        btnCursos = new javax.swing.JButton();
         pnlFrame = new javax.swing.JPanel();
         pnlTabela = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -232,24 +266,206 @@ public class PrincipalView extends javax.swing.JFrame {
         cbxCoorientador = new javax.swing.JCheckBox();
         txtCoorientador = new javax.swing.JTextField();
         lblOrientador1 = new javax.swing.JLabel();
+        btnSubir = new javax.swing.JButton();
         txtId = new javax.swing.JTextField();
 
-        javax.swing.GroupLayout dlgUsuarioLayout = new javax.swing.GroupLayout(dlgUsuario.getContentPane());
-        dlgUsuario.getContentPane().setLayout(dlgUsuarioLayout);
-        dlgUsuarioLayout.setHorizontalGroup(
-            dlgUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        dlgUsuarioLayout.setVerticalGroup(
-            dlgUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        dlgUsuario.setTitle("Usuários");
+        dlgUsuario.setLocationByPlatform(true);
+        dlgUsuario.setMinimumSize(new java.awt.Dimension(760, 493));
+        dlgUsuario.setPreferredSize(new java.awt.Dimension(760, 493));
+        dlgUsuario.setResizable(false);
+        dlgUsuario.setSize(new java.awt.Dimension(760, 493));
+        dlgUsuario.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pnlTitulo.setBackground(new java.awt.Color(244, 240, 130));
+        pnlTitulo.setLayout(new java.awt.GridLayout());
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(74, 72, 27));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Usuários");
+        pnlTitulo.add(jLabel1);
+
+        dlgUsuario.getContentPane().add(pnlTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 760, 60));
+
+        pnlUsuarios.setBackground(new java.awt.Color(253, 253, 253));
+        pnlUsuarios.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(238, 238, 238)));
+        pnlUsuarios.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jScrollPane2.setBorder(null);
+
+        lstUsuarios.setBackground(new java.awt.Color(250, 250, 250));
+        lstUsuarios.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(238, 238, 238)), javax.swing.BorderFactory.createEmptyBorder(3, 10, 4, 3)));
+        lstUsuarios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lstUsuarios.setForeground(new java.awt.Color(29, 31, 40));
+        lstUsuarios.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "user 1", "user 2" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(lstUsuarios);
+
+        pnlUsuarios.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 270, 330));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(29, 31, 40));
+        jLabel2.setText("Usuários do Sistema");
+        jLabel2.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new java.awt.Color(238, 238, 238)), javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0)));
+        pnlUsuarios.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 270, 50));
+
+        dlgUsuario.getContentPane().add(pnlUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 270, 400));
+
+        pnlNovoUsuario.setBackground(new java.awt.Color(251, 251, 251));
+        pnlNovoUsuario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblMASP.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblMASP.setForeground(new java.awt.Color(29, 31, 40));
+        lblMASP.setText("MASP");
+        pnlNovoUsuario.add(lblMASP, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
+
+        txtMasp.setBackground(new java.awt.Color(251, 251, 251));
+        txtMasp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtMasp.setToolTipText("Precione ENTER para buscar.");
+        txtMasp.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(59, 110, 143)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 10)));
+        txtMasp.setOpaque(false);
+        pnlNovoUsuario.add(txtMasp, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 130, 30));
+
+        lblNomeUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblNomeUsuario.setForeground(new java.awt.Color(29, 31, 40));
+        lblNomeUsuario.setText("Nome");
+        pnlNovoUsuario.add(lblNomeUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, -1));
+
+        txtNome.setBackground(new java.awt.Color(251, 251, 251));
+        txtNome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtNome.setToolTipText("Precione ENTER para buscar.");
+        txtNome.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(59, 110, 143)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 10)));
+        txtNome.setOpaque(false);
+        pnlNovoUsuario.add(txtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 390, 30));
+
+        lblSenhaUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblSenhaUsuario.setForeground(new java.awt.Color(29, 31, 40));
+        lblSenhaUsuario.setText("Senha");
+        pnlNovoUsuario.add(lblSenhaUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, -1, -1));
+
+        txtSenha.setBackground(new java.awt.Color(251, 251, 251));
+        txtSenha.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        txtSenha.setForeground(new java.awt.Color(29, 31, 40));
+        txtSenha.setToolTipText("Digite sua senha");
+        txtSenha.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(59, 110, 143)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 10)));
+        pnlNovoUsuario.add(txtSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 120, 210, 30));
+
+        btnSalvarUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSalvarUsuario.setForeground(new java.awt.Color(29, 31, 40));
+        btnSalvarUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagens/iconmonstr-save-2-16.png"))); // NOI18N
+        btnSalvarUsuario.setText("Salvar");
+        btnSalvarUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSalvarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarUsuarioActionPerformed(evt);
+            }
+        });
+        pnlNovoUsuario.add(btnSalvarUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 340, 140, 40));
+
+        jCheckBox1.setBackground(new java.awt.Color(251, 251, 251));
+        jCheckBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jCheckBox1.setForeground(new java.awt.Color(29, 31, 40));
+        jCheckBox1.setText("Inativo");
+        pnlNovoUsuario.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 270, -1, -1));
+
+        lblConfirmarSenhaUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblConfirmarSenhaUsuario.setForeground(new java.awt.Color(29, 31, 40));
+        lblConfirmarSenhaUsuario.setText("Confirmar Senha");
+        pnlNovoUsuario.add(lblConfirmarSenhaUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, -1, -1));
+
+        txtConfirmarSenha.setBackground(new java.awt.Color(251, 251, 251));
+        txtConfirmarSenha.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        txtConfirmarSenha.setForeground(new java.awt.Color(29, 31, 40));
+        txtConfirmarSenha.setToolTipText("Digite sua senha");
+        txtConfirmarSenha.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(59, 110, 143)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 10)));
+        pnlNovoUsuario.add(txtConfirmarSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, 210, 30));
+
+        dlgUsuario.getContentPane().add(pnlNovoUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 60, 490, 400));
+
+        dlgCurso.setTitle("Usuários");
+        dlgCurso.setLocationByPlatform(true);
+        dlgCurso.setMinimumSize(new java.awt.Dimension(760, 493));
+        dlgCurso.setPreferredSize(new java.awt.Dimension(760, 493));
+        dlgCurso.setResizable(false);
+        dlgCurso.setSize(new java.awt.Dimension(760, 493));
+        dlgCurso.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pnlTitulo1.setBackground(new java.awt.Color(244, 240, 130));
+        pnlTitulo1.setLayout(new java.awt.GridLayout());
+
+        lblTituloCurso.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
+        lblTituloCurso.setForeground(new java.awt.Color(74, 72, 27));
+        lblTituloCurso.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTituloCurso.setText("Cursos");
+        pnlTitulo1.add(lblTituloCurso);
+
+        dlgCurso.getContentPane().add(pnlTitulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 760, 60));
+
+        pnlUsuarios1.setBackground(new java.awt.Color(253, 253, 253));
+        pnlUsuarios1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(238, 238, 238)));
+        pnlUsuarios1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jScrollPane3.setBorder(null);
+
+        lstCursos.setBackground(new java.awt.Color(250, 250, 250));
+        lstCursos.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(238, 238, 238)), javax.swing.BorderFactory.createEmptyBorder(3, 10, 4, 3)));
+        lstCursos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lstCursos.setForeground(new java.awt.Color(29, 31, 40));
+        lstCursos.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "user 1", "user 2" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane3.setViewportView(lstCursos);
+
+        pnlUsuarios1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 270, 330));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(29, 31, 40));
+        jLabel4.setText("Cursos no Sistema");
+        jLabel4.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new java.awt.Color(238, 238, 238)), javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0)));
+        pnlUsuarios1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 270, 50));
+
+        dlgCurso.getContentPane().add(pnlUsuarios1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 270, 400));
+
+        pnlNovoUsuario1.setBackground(new java.awt.Color(251, 251, 251));
+        pnlNovoUsuario1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblNomeCurso.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblNomeCurso.setForeground(new java.awt.Color(29, 31, 40));
+        lblNomeCurso.setText("Nome");
+        pnlNovoUsuario1.add(lblNomeCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, -1, -1));
+
+        txtNomeCurso.setBackground(new java.awt.Color(251, 251, 251));
+        txtNomeCurso.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtNomeCurso.setToolTipText("Precione ENTER para buscar.");
+        txtNomeCurso.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(59, 110, 143)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 10)));
+        txtNomeCurso.setOpaque(false);
+        pnlNovoUsuario1.add(txtNomeCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 390, 30));
+
+        btnSalvarCurso.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSalvarCurso.setForeground(new java.awt.Color(29, 31, 40));
+        btnSalvarCurso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagens/iconmonstr-save-2-16.png"))); // NOI18N
+        btnSalvarCurso.setText("Salvar");
+        btnSalvarCurso.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSalvarCurso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarCursoActionPerformed(evt);
+            }
+        });
+        pnlNovoUsuario1.add(btnSalvarCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 340, 140, 40));
+
+        dlgCurso.getContentPane().add(pnlNovoUsuario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 60, 490, 400));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Cadastro TCC");
-        setMaximumSize(new java.awt.Dimension(1090, 713));
-        setMinimumSize(new java.awt.Dimension(1090, 713));
-        setPreferredSize(new java.awt.Dimension(1090, 713));
+        setMaximumSize(new java.awt.Dimension(1090, 746));
+        setMinimumSize(new java.awt.Dimension(1090, 746));
+        setPreferredSize(new java.awt.Dimension(1090, 746));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -264,15 +480,29 @@ public class PrincipalView extends javax.swing.JFrame {
         lblUsuario.setToolTipText("");
         pnlUsuario.add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 60));
 
-        btnUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagens/btnUsuario.png"))); // NOI18N
-        btnUsuario.setBorder(null);
-        btnUsuario.setOpaque(false);
-        btnUsuario.addActionListener(new java.awt.event.ActionListener() {
+        btnUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagens/btnUsuarios.png"))); // NOI18N
+        btnUsuarios.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnUsuarios.setOpaque(false);
+        btnUsuarios.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagens/btnUsuariosPress.png"))); // NOI18N
+        btnUsuarios.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagens/btnUsuariosOver.png"))); // NOI18N
+        btnUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUsuarioActionPerformed(evt);
+                btnUsuariosActionPerformed(evt);
             }
         });
-        pnlUsuario.add(btnUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 0, 220, 60));
+        pnlUsuario.add(btnUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 0, 170, 60));
+
+        btnCursos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagens/btnCursos.png"))); // NOI18N
+        btnCursos.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnCursos.setOpaque(false);
+        btnCursos.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagens/btnCursosPress.png"))); // NOI18N
+        btnCursos.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagens/btnCursosOver.png"))); // NOI18N
+        btnCursos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCursosActionPerformed(evt);
+            }
+        });
+        pnlUsuario.add(btnCursos, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 0, 160, 60));
 
         getContentPane().add(pnlUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1090, 60));
 
@@ -284,6 +514,7 @@ public class PrincipalView extends javax.swing.JFrame {
         pnlTabela.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(215, 215, 215)));
 
         tblTCC.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tblTCC.setForeground(new java.awt.Color(29, 31, 40));
         tblTCC.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -311,9 +542,11 @@ public class PrincipalView extends javax.swing.JFrame {
         });
 
         lblFiltro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblFiltro.setForeground(new java.awt.Color(29, 31, 40));
         lblFiltro.setText("Filtro");
 
         lblBusca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblBusca.setForeground(new java.awt.Color(29, 31, 40));
         lblBusca.setText("Busca");
 
         txtBusca.setBackground(new java.awt.Color(250, 250, 250));
@@ -328,6 +561,7 @@ public class PrincipalView extends javax.swing.JFrame {
         });
 
         lblCursoBusca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblCursoBusca.setForeground(new java.awt.Color(29, 31, 40));
         lblCursoBusca.setText("Curso");
 
         cbxCursoBusca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -526,6 +760,7 @@ public class PrincipalView extends javax.swing.JFrame {
         lblEntrega.setText("Entrega");
 
         lblFrameTitulo.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
+        lblFrameTitulo.setForeground(new java.awt.Color(29, 31, 40));
         lblFrameTitulo.setText("Dados do Autor");
         lblFrameTitulo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(142, 142, 142)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 5, 1)));
 
@@ -566,6 +801,17 @@ public class PrincipalView extends javax.swing.JFrame {
         lblOrientador1.setForeground(new java.awt.Color(29, 31, 40));
         lblOrientador1.setText("Coorientador");
 
+        btnSubir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSubir.setForeground(new java.awt.Color(29, 31, 40));
+        btnSubir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagens/iconmonstr-upload-5-16.png"))); // NOI18N
+        btnSubir.setText("Enviar TCC");
+        btnSubir.setEnabled(false);
+        btnSubir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlDadosLayout = new javax.swing.GroupLayout(pnlDados);
         pnlDados.setLayout(pnlDadosLayout);
         pnlDadosLayout.setHorizontalGroup(
@@ -592,7 +838,7 @@ public class PrincipalView extends javax.swing.JFrame {
                                         .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(txtRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(lblRegistro))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                                         .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(lblAutor)
                                             .addComponent(txtAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -601,18 +847,19 @@ public class PrincipalView extends javax.swing.JFrame {
                             .addComponent(txtTitulo, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDadosLayout.createSequentialGroup()
                                 .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(pnlDadosLayout.createSequentialGroup()
-                                        .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblCurso)
-                                            .addComponent(cbxCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(48, 48, 48)
-                                        .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblApresentacao)
-                                            .addComponent(txtApresentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addComponent(lblOrientador)
                                     .addComponent(lblOrientador1)
                                     .addComponent(txtCoorientador)
-                                    .addComponent(txtOrientador))
+                                    .addComponent(txtOrientador)
+                                    .addGroup(pnlDadosLayout.createSequentialGroup()
+                                        .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(lblCurso)
+                                            .addComponent(cbxCurso, 0, 158, Short.MAX_VALUE)
+                                            .addComponent(btnSubir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(48, 48, 48)
+                                        .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblApresentacao)
+                                            .addComponent(txtApresentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cbxCoorientador)
@@ -666,9 +913,10 @@ public class PrincipalView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(40, 40, 40)
-                .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSalvar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExcluir, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(pnlDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnSubir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExcluir))
                 .addContainerGap())
         );
 
@@ -731,6 +979,7 @@ public class PrincipalView extends javax.swing.JFrame {
             
             btnSalvar.setEnabled(true);
             btnExcluir.setEnabled(true);
+            btnSubir.setEnabled(true);
             btnEditar.setEnabled(false);
             
         }
@@ -814,6 +1063,7 @@ public class PrincipalView extends javax.swing.JFrame {
             }
             btnSalvar.setEnabled(false);
             btnExcluir.setEnabled(false);
+            btnSubir.setEnabled(false);
             btnEditar.setEnabled(true);
         }
         else{
@@ -853,6 +1103,7 @@ public class PrincipalView extends javax.swing.JFrame {
                 cbxCoorientador.setSelected(false);
                 
                 btnSalvar.setEnabled(true);
+                btnSubir.setEnabled(true);
                 btnExcluir.setEnabled(false);
                 btnEditar.setEnabled(false);
             }
@@ -897,6 +1148,7 @@ public class PrincipalView extends javax.swing.JFrame {
                 cbxCoorientador.setSelected(false);
                 
                 btnSalvar.setEnabled(true);
+                btnSubir.setEnabled(true);
                 btnExcluir.setEnabled(false);
                 btnEditar.setEnabled(false);
         }
@@ -943,6 +1195,7 @@ public class PrincipalView extends javax.swing.JFrame {
                 
                 btnSalvar.setEnabled(false);
                 btnExcluir.setEnabled(false);
+                btnSubir.setEnabled(false);
                 btnEditar.setEnabled(false);
             }
         
@@ -1015,6 +1268,7 @@ public class PrincipalView extends javax.swing.JFrame {
         }
         
         btnEditar.setEnabled(true);
+        btnSubir.setEnabled(false);
         btnExcluir.setEnabled(false);
         btnSalvar.setEnabled(false);
         
@@ -1032,9 +1286,48 @@ public class PrincipalView extends javax.swing.JFrame {
         
     }//GEN-LAST:event_tblTCCMouseClicked
 
-    private void btnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuarioActionPerformed
+    private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed
+        // Chama a jDialog Usuarios
+        
+        dlgUsuario.setVisible(true);
+    }//GEN-LAST:event_btnUsuariosActionPerformed
+
+    private void btnCursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCursosActionPerformed
+        // Chama a jDialog Cursos
+        
+        dlgCurso.setVisible(true);
+    }//GEN-LAST:event_btnCursosActionPerformed
+
+    private void btnSalvarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarUsuarioActionPerformed
+        // Salvar novo usuario ou editar.
+        
+        if(!txtNome.getText().isEmpty() || !txtMasp.getText().isEmpty() || !txtSenha.getText().isEmpty() || !txtConfirmarSenha.getText().isEmpty()){
+            if(txtSenha.getText() == txtConfirmarSenha.getText()){
+                // Salvar
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "As senhas não coincidem!");
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Existem campos vazios!");
+        }
+    }//GEN-LAST:event_btnSalvarUsuarioActionPerformed
+
+    private void btnSalvarCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCursoActionPerformed
+        // Salva ou edita o curso
+        if(!txtNomeCurso.getText().isEmpty()){
+            // Salvar
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "O campo nome deve ser preenchido!");
+        }
+        
+    }//GEN-LAST:event_btnSalvarCursoActionPerformed
+
+    private void btnSubirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubirActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnUsuarioActionPerformed
+    }//GEN-LAST:event_btnSubirActionPerformed
 
     public void limparcampos(){
     txtApresentacao.setValue("");
@@ -1050,42 +1343,72 @@ public class PrincipalView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastro;
+    private javax.swing.JButton btnCursos;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnSalvar;
-    private javax.swing.JButton btnUsuario;
+    private javax.swing.JButton btnSalvarCurso;
+    private javax.swing.JButton btnSalvarUsuario;
+    private javax.swing.JButton btnSubir;
+    private javax.swing.JButton btnUsuarios;
     private javax.swing.JCheckBox cbxCoorientador;
     private javax.swing.JComboBox<String> cbxCurso;
     private javax.swing.JComboBox<String> cbxCursoBusca;
     private javax.swing.JComboBox<String> cbxTipoBusca;
+    private javax.swing.JDialog dlgCurso;
     private javax.swing.JDialog dlgUsuario;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblApresentacao;
     private javax.swing.JLabel lblAutor;
     private javax.swing.JLabel lblBusca;
+    private javax.swing.JLabel lblConfirmarSenhaUsuario;
     private javax.swing.JLabel lblCurso;
     private javax.swing.JLabel lblCursoBusca;
     private javax.swing.JLabel lblEntrega;
     private javax.swing.JLabel lblFiltro;
     private javax.swing.JLabel lblFrameTitulo;
+    private javax.swing.JLabel lblMASP;
+    private javax.swing.JLabel lblNomeCurso;
+    private javax.swing.JLabel lblNomeUsuario;
     private javax.swing.JLabel lblOrientador;
     private javax.swing.JLabel lblOrientador1;
     private javax.swing.JLabel lblRegistro;
+    private javax.swing.JLabel lblSenhaUsuario;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JLabel lblTituloCurso;
     private javax.swing.JLabel lblUsuario;
+    private javax.swing.JList<String> lstCursos;
+    private javax.swing.JList<String> lstUsuarios;
     private javax.swing.JPanel pnlDados;
     private javax.swing.JPanel pnlFrame;
+    private javax.swing.JPanel pnlNovoUsuario;
+    private javax.swing.JPanel pnlNovoUsuario1;
     private javax.swing.JPanel pnlTabela;
+    private javax.swing.JPanel pnlTitulo;
+    private javax.swing.JPanel pnlTitulo1;
     private javax.swing.JPanel pnlUsuario;
+    private javax.swing.JPanel pnlUsuarios;
+    private javax.swing.JPanel pnlUsuarios1;
     private javax.swing.JTable tblTCC;
     private javax.swing.JFormattedTextField txtApresentacao;
     private javax.swing.JTextField txtAutor;
     private javax.swing.JTextField txtBusca;
+    private javax.swing.JPasswordField txtConfirmarSenha;
     private javax.swing.JTextField txtCoorientador;
     private javax.swing.JFormattedTextField txtEntrega;
     private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtMasp;
+    private javax.swing.JTextField txtNome;
+    private javax.swing.JTextField txtNomeCurso;
     private javax.swing.JTextField txtOrientador;
     private javax.swing.JTextField txtRegistro;
+    private javax.swing.JPasswordField txtSenha;
     private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
 }
