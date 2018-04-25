@@ -284,7 +284,6 @@ public class PrincipalView extends javax.swing.JFrame {
 
         dlgUsuario.setTitle("Usuários");
         dlgUsuario.setMinimumSize(new java.awt.Dimension(760, 493));
-        dlgUsuario.setPreferredSize(new java.awt.Dimension(760, 493));
         dlgUsuario.setResizable(false);
         dlgUsuario.setSize(new java.awt.Dimension(760, 493));
         dlgUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1019,7 +1018,24 @@ public class PrincipalView extends javax.swing.JFrame {
         cadtcc = new CadtccM();
         curso = new CursoM();
         log = new LogM();
-        
+
+        String name = txtAutor.getText();
+        if(name.charAt(name.length()-1) != ' '){
+            
+        String NomeCompleto = txtAutor.getText();
+        String PrimeiroNome, UltimoNome;
+        int cont1 = 0, i, cont2 = 0;
+        for( i = 0; i < NomeCompleto.length(); i++){
+            if(NomeCompleto.charAt(i) == ' '){
+                cont1++;
+                
+                cont2 = i;
+ 
+            }
+        }
+        PrimeiroNome = NomeCompleto.substring(0, cont2);
+        UltimoNome = NomeCompleto.substring(cont2+1, NomeCompleto.length());
+        UltimoNome = UltimoNome.toUpperCase();
         try {
             curso = cursodao.buscaNome(cbxCurso.getSelectedItem().toString());
         } catch (SQLException ex) {
@@ -1027,78 +1043,82 @@ public class PrincipalView extends javax.swing.JFrame {
             Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        if((!txtAutor.getText().isEmpty()) || (!txtOrientador.getText().isEmpty()) ){
-            
-            if(cbxCoorientador.isSelected()== true && txtCoorientador.getText().isEmpty()){
-                JOptionPane.showMessageDialog(null, "Preencha o Nome do Coordenador", "erro", JOptionPane.WARNING_MESSAGE);
-            
-            }else if(txtId.getText().isEmpty()){
-                // salvar
-                cadtcc.setAutor(txtAutor.getText());
-                cadtcc.setTitulo(txtTitulo.getText());
-                cadtcc.setOrientador(txtOrientador.getText());
-                cadtcc.setCoorientador(txtCoorientador.getText());
-                cadtcc.setIdCurso(curso);
-                cadtcc.setRegistro(txtRegistro.getText());
-                cadtcc.setDataEntrega(txtEntrega.getText());
-                cadtcc.setDataApresentacao(txtApresentacao.getText());
-                //cadtcc.set titulo do projeto;
-                
-                // log
-                log.setAcao("Salvando TCC");
-                log.setIdUsuario(usuariologado);
-                log.setHora(new SimpleDateFormat("HH:MM").format(new Date(System.currentTimeMillis())));
-                log.setData(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
-                log.setTituloTrabalho(txtTitulo.getText());
-                    
-                
-                
-                try {
-                    cadtccdao.salvar(cadtcc);
-                    logdao.Salvar(log);
-                    JOptionPane.showMessageDialog(null, "Gravado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                    atualizaTabelaCad();
-                } catch (SQLException ex) {
-                    Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+            if((!txtAutor.getText().isEmpty()) || (!txtOrientador.getText().isEmpty()) ){
+
+                if(cbxCoorientador.isSelected()== true && txtCoorientador.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Preencha o Nome do Coordenador", "erro", JOptionPane.WARNING_MESSAGE);
+
+                }else if(txtId.getText().isEmpty()){
+                    // salvar
+                    cadtcc.setAutor(UltimoNome+", "+PrimeiroNome);
+                    cadtcc.setTitulo(txtTitulo.getText());
+                    cadtcc.setOrientador(txtOrientador.getText());
+                    cadtcc.setCoorientador(txtCoorientador.getText());
+                    cadtcc.setIdCurso(curso);
+                    cadtcc.setRegistro(txtRegistro.getText());
+                    cadtcc.setDataEntrega(txtEntrega.getText());
+                    cadtcc.setDataApresentacao(txtApresentacao.getText());
+                    //cadtcc.set titulo do projeto;
+
+                    // log
+                    log.setAcao("Salvando TCC");
+                    log.setIdUsuario(usuariologado);
+                    log.setHora(new SimpleDateFormat("HH:MM").format(new Date(System.currentTimeMillis())));
+                    log.setData(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
+                    log.setTituloTrabalho(txtTitulo.getText());
+
+
+
+                    try {
+                        cadtccdao.salvar(cadtcc);
+                        logdao.Salvar(log);
+                        JOptionPane.showMessageDialog(null, "Gravado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                        atualizaTabelaCad();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+                    }
+                    limparcampos();
+                }else{
+                    cadtcc.setId(Integer.valueOf(txtId.getText()));
+                    cadtcc.setAutor(txtNome.getText());
+                    cadtcc.setTitulo(txtTitulo.getText());
+                    cadtcc.setOrientador(txtOrientador.getText());
+                    cadtcc.setCoorientador(txtCoorientador.getText());
+                    cadtcc.setIdCurso(curso);
+                    cadtcc.setRegistro(txtRegistro.getText());
+                    cadtcc.setDataEntrega(txtEntrega.getText());
+                    cadtcc.setDataApresentacao(txtApresentacao.getText());
+
+                    log.setAcao("Alterando TCC");
+                    log.setIdUsuario(usuariologado);
+                    log.setHora(new SimpleDateFormat("HH:MM").format(new Date(System.currentTimeMillis())));
+                    log.setData(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
+                    log.setTituloTrabalho(txtTitulo.getText());
+
+                    try {
+                        cadtccdao.alterar(cadtcc);
+                        logdao.Salvar(log);
+                        JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                        atualizaTabelaCad();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+                    }
+                    limparcampos();
                 }
-                limparcampos();
-            }else{
-                cadtcc.setId(Integer.valueOf(txtId.getText()));
-                cadtcc.setAutor(txtAutor.getText());
-                cadtcc.setTitulo(txtTitulo.getText());
-                cadtcc.setOrientador(txtOrientador.getText());
-                cadtcc.setCoorientador(txtCoorientador.getText());
-                cadtcc.setIdCurso(curso);
-                cadtcc.setRegistro(txtRegistro.getText());
-                cadtcc.setDataEntrega(txtEntrega.getText());
-                cadtcc.setDataApresentacao(txtApresentacao.getText());
-                
-                log.setAcao("Alterando TCC");
-                log.setIdUsuario(usuariologado);
-                log.setHora(new SimpleDateFormat("HH:MM").format(new Date(System.currentTimeMillis())));
-                log.setData(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
-                log.setTituloTrabalho(txtTitulo.getText());
-                
-                try {
-                    cadtccdao.alterar(cadtcc);
-                    logdao.Salvar(log);
-                    JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                    atualizaTabelaCad();
-                } catch (SQLException ex) {
-                    Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
-                }
-                limparcampos();
+                btnSalvar.setEnabled(false);
+                btnExcluir.setEnabled(false);
+                btnSubir.setEnabled(false);
+                btnEditar.setEnabled(true);
             }
-            btnSalvar.setEnabled(false);
-            btnExcluir.setEnabled(false);
-            btnSubir.setEnabled(false);
-            btnEditar.setEnabled(true);
-        }
+            else{
+                JOptionPane.showMessageDialog(null, "Existem campos não preenchidos.");
+            }
+        }   
         else{
-            JOptionPane.showMessageDialog(null, "Existem campos não preenchidos.");
-        }
+            JOptionPane.showMessageDialog( null, "Remova o espaço depois do seu ultimo nome!");
+        }                                       
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroActionPerformed
