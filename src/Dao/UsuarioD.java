@@ -7,9 +7,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import view.PrincipalView;
+
+
 
 public class UsuarioD {
 
+    PrincipalView principal = new PrincipalView();
+    
+    
           public static UsuarioM valida(String user, String senha) throws SQLException{
         PreparedStatement pst;
         String sql;
@@ -40,6 +46,7 @@ public class UsuarioD {
         sql = "select * from usuario";
         pst = Conexao.getInstance().prepareStatement(sql);
         ResultSet rs = pst.executeQuery();
+        
         while(rs.next()){
            listaUser.add(new UsuarioM(rs.getInt("id"),
                        rs.getString("nome"), 
@@ -48,7 +55,12 @@ public class UsuarioD {
                        rs.getBoolean("admin"),
                        rs.getBoolean("inativo"))
                         );
+           
+            
+             
+            
          }
+         
           pst.close();
          return listaUser;
     }
@@ -96,17 +108,17 @@ public class UsuarioD {
         pst.close();
      } 
         
-          static public UsuarioM BuscaPorId(int id) throws SQLException {
+          static public UsuarioM BuscaPorNome(int id) throws SQLException {
         PreparedStatement pst;
         String sql;
         UsuarioM usuario = null;
-        sql = "Select * from usuario where id=?";
+        sql = "Select * from usuario where nome=?";
         pst = Conexao.getInstance().prepareStatement(sql);
         pst.setInt(1, id);
         pst.executeQuery();
         ResultSet rs = pst.getResultSet();
         while(rs.next()){
-               usuario = new UsuarioM(rs.getInt("id"),
+               usuario = new UsuarioM(rs.getInt("id"),                       
                        rs.getString("nome"), 
                        rs.getString("masp"),
                        rs.getString("senha"), 

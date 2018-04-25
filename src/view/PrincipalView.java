@@ -1,19 +1,25 @@
 package view;
 
 import Dao.CadtccD;
+import Dao.Conexao;
 import Dao.CursoD;
 import Dao.LogD;
+import Dao.UsuarioD;
 import Model.CadtccM;
 import Model.CursoM;
 import Model.LogM;
 import Model.UsuarioM;
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicButtonUI;
@@ -40,15 +46,18 @@ public class PrincipalView extends javax.swing.JFrame {
     LogD logdao = new LogD();
     
     UsuarioM usuariologado = new UsuarioM();
-    
-    
+    List<UsuarioM> listaUsuario;
+    UsuarioD usuarioDAO;
+    UsuarioM usuarioM;
 
-    public PrincipalView(UsuarioM usuario) {
+    public PrincipalView(UsuarioM usuario) throws SQLException {
         initComponents();
         this.setVisible(true);
         atualizaTabelaCad();
         atualizaBoxCurso();
         atualizaBoxCursobusca();
+        preencheListaUsuario();
+        
         
         txtAutor.setText("");
         txtTitulo.setText("");
@@ -81,6 +90,10 @@ public class PrincipalView extends javax.swing.JFrame {
         }
         
         
+    }
+
+    public PrincipalView() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     public void atualizaTabelaCad(){
@@ -215,7 +228,7 @@ public class PrincipalView extends javax.swing.JFrame {
         lblSenhaUsuario = new javax.swing.JLabel();
         txtSenha = new javax.swing.JPasswordField();
         btnSalvarUsuario = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        ckb_Inativo = new javax.swing.JCheckBox();
         lblConfirmarSenhaUsuario = new javax.swing.JLabel();
         txtConfirmarSenha = new javax.swing.JPasswordField();
         dlgCurso = new javax.swing.JDialog();
@@ -270,20 +283,29 @@ public class PrincipalView extends javax.swing.JFrame {
         txtId = new javax.swing.JTextField();
 
         dlgUsuario.setTitle("Usuários");
-        dlgUsuario.setLocationByPlatform(true);
         dlgUsuario.setMinimumSize(new java.awt.Dimension(760, 493));
         dlgUsuario.setPreferredSize(new java.awt.Dimension(760, 493));
         dlgUsuario.setResizable(false);
         dlgUsuario.setSize(new java.awt.Dimension(760, 493));
+        dlgUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dlgUsuarioMouseClicked(evt);
+            }
+        });
         dlgUsuario.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlTitulo.setBackground(new java.awt.Color(244, 240, 130));
-        pnlTitulo.setLayout(new java.awt.GridLayout());
+        pnlTitulo.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(74, 72, 27));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Usuários");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
         pnlTitulo.add(jLabel1);
 
         dlgUsuario.getContentPane().add(pnlTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 760, 60));
@@ -302,6 +324,11 @@ public class PrincipalView extends javax.swing.JFrame {
             String[] strings = { "user 1", "user 2" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
+        });
+        lstUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstUsuariosMouseClicked(evt);
+            }
         });
         jScrollPane2.setViewportView(lstUsuarios);
 
@@ -340,6 +367,11 @@ public class PrincipalView extends javax.swing.JFrame {
         txtNome.setToolTipText("Precione ENTER para buscar.");
         txtNome.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(59, 110, 143)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 10)));
         txtNome.setOpaque(false);
+        txtNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNomeActionPerformed(evt);
+            }
+        });
         pnlNovoUsuario.add(txtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 390, 30));
 
         lblSenhaUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -366,11 +398,11 @@ public class PrincipalView extends javax.swing.JFrame {
         });
         pnlNovoUsuario.add(btnSalvarUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 340, 140, 40));
 
-        jCheckBox1.setBackground(new java.awt.Color(251, 251, 251));
-        jCheckBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jCheckBox1.setForeground(new java.awt.Color(29, 31, 40));
-        jCheckBox1.setText("Inativo");
-        pnlNovoUsuario.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 270, -1, -1));
+        ckb_Inativo.setBackground(new java.awt.Color(251, 251, 251));
+        ckb_Inativo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        ckb_Inativo.setForeground(new java.awt.Color(29, 31, 40));
+        ckb_Inativo.setText("Inativo");
+        pnlNovoUsuario.add(ckb_Inativo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 270, -1, -1));
 
         lblConfirmarSenhaUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblConfirmarSenhaUsuario.setForeground(new java.awt.Color(29, 31, 40));
@@ -387,15 +419,13 @@ public class PrincipalView extends javax.swing.JFrame {
         dlgUsuario.getContentPane().add(pnlNovoUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 60, 490, 400));
 
         dlgCurso.setTitle("Usuários");
-        dlgCurso.setLocationByPlatform(true);
         dlgCurso.setMinimumSize(new java.awt.Dimension(760, 493));
-        dlgCurso.setPreferredSize(new java.awt.Dimension(760, 493));
         dlgCurso.setResizable(false);
         dlgCurso.setSize(new java.awt.Dimension(760, 493));
         dlgCurso.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlTitulo1.setBackground(new java.awt.Color(244, 240, 130));
-        pnlTitulo1.setLayout(new java.awt.GridLayout());
+        pnlTitulo1.setLayout(new java.awt.GridLayout(1, 0));
 
         lblTituloCurso.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         lblTituloCurso.setForeground(new java.awt.Color(74, 72, 27));
@@ -1299,21 +1329,71 @@ public class PrincipalView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCursosActionPerformed
 
     private void btnSalvarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarUsuarioActionPerformed
-        // Salvar novo usuario ou editar.
-        
-        if(!txtNome.getText().isEmpty() || !txtMasp.getText().isEmpty() || !txtSenha.getText().isEmpty() || !txtConfirmarSenha.getText().isEmpty()){
-            if(txtSenha.getText() == txtConfirmarSenha.getText()){
-                // Salvar
-            }
-            else{
-                JOptionPane.showMessageDialog(null, "As senhas não coincidem!");
-            }
+                
+        if(txtNome.getText().isEmpty() || txtMasp.getText().isEmpty() || txtSenha.getText().isEmpty() || txtConfirmarSenha.getText().isEmpty()){
+             JOptionPane.showMessageDialog(null, "Prencha todos os campos.", "Erro", JOptionPane.WARNING_MESSAGE);
+            txtNome.requestFocusInWindow();
+        } else if (txtId.getText().isEmpty()){
+            if(txtSenha.getText().equals(txtConfirmarSenha.getText())){
+                
+                usuarioM = new UsuarioM();
+                usuarioM.setNome(txtNome.getText());
+                usuarioM.setMasp(txtMasp.getText());
+                usuarioM.setSenha(txtSenha.getText());
+                usuarioM.setAdmin(false);
+                usuarioM.setInativo(ckb_Inativo.isSelected());
+                try {
+                    UsuarioD.salvar(usuarioM);
+                    JOptionPane.showMessageDialog(null, "Usuario Gravado com Sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
+                 if (ex.getErrorCode() == 1062) {
+                        JOptionPane.showMessageDialog(null, "Usuario já existente.", "Erro", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    }
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Senhas não coincidem", "Erro", JOptionPane.WARNING_MESSAGE);
+            
         }
-        else{
-            JOptionPane.showMessageDialog(null, "Existem campos vazios!");
-        }
+    }
     }//GEN-LAST:event_btnSalvarUsuarioActionPerformed
 
+        public void preencheListaUsuario() throws SQLException{
+            
+        DefaultListModel m = new DefaultListModel();    
+        try{
+          
+        PreparedStatement pst;
+        String sql;
+        sql = "select * from usuario";
+        pst = Conexao.getInstance().prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+        
+        while(rs.next()){
+         
+         int id = rs.getInt("id");
+         String nome = rs.getString("nome");
+         String masp = rs.getString("masp");
+         String senha = rs.getString("senha");
+         Boolean admin = rs.getBoolean("admin");
+         Boolean inativo = rs.getBoolean("inativo");
+         
+         
+         m.addElement(nome);
+        }
+        lstUsuarios.setModel(m);
+        }
+        catch (SQLException ex){
+            JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage());
+        }
+       
+    }
+
+ 
+    
     private void btnSalvarCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCursoActionPerformed
         // Salva ou edita o curso
         if(!txtNomeCurso.getText().isEmpty()){
@@ -1326,8 +1406,62 @@ public class PrincipalView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalvarCursoActionPerformed
 
     private void btnSubirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubirActionPerformed
-        // TODO add your handling code here:
+    
     }//GEN-LAST:event_btnSubirActionPerformed
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+  
+    }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void dlgUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dlgUsuarioMouseClicked
+     
+    }//GEN-LAST:event_dlgUsuarioMouseClicked
+
+    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
+    
+    }//GEN-LAST:event_txtNomeActionPerformed
+
+    private void lstUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstUsuariosMouseClicked
+        String tmp = (String)lstUsuarios.getSelectedValue();
+        //txtNome.setText(tmp);
+        try {
+        PreparedStatement pst;
+        String sql;
+        sql = "select * from usuario where id = ?";
+            pst = Conexao.getInstance().prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            pst.setString(1, tmp);
+            while(rs.next()){
+                
+                //txtNome.setText(lstUsuarios.getValueAt(usuarioM(listaUsuario),lstUsuarios.getSelectedValuesList(), 1).toString());
+                
+                //usuarioM = UsuarioD.BuscaPorNome(Integer.parseInt(txtNome.getText()));
+                
+                
+                int id = rs.getInt("id");
+                                
+                String nome = rs.getString("nome");
+                txtNome.setText(nome);
+                
+                String masp = rs.getString("masp");
+                txtMasp.setText(masp);
+                
+                String senha = rs.getString("senha");
+                txtSenha.setText(senha);                               
+                txtConfirmarSenha.setText(senha);
+                
+                boolean admin = rs.getBoolean("admin");
+                
+                boolean inativo = rs.getBoolean("inativo");
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+        
+    }//GEN-LAST:event_lstUsuariosMouseClicked
 
     public void limparcampos(){
     txtApresentacao.setValue("");
@@ -1355,9 +1489,9 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbxCurso;
     private javax.swing.JComboBox<String> cbxCursoBusca;
     private javax.swing.JComboBox<String> cbxTipoBusca;
+    private javax.swing.JCheckBox ckb_Inativo;
     private javax.swing.JDialog dlgCurso;
     private javax.swing.JDialog dlgUsuario;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
