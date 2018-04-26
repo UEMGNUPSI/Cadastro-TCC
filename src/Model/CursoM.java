@@ -36,6 +36,10 @@ public class CursoM {
     public void setNome(String Nome) {
         this.Nome = Nome;
     }
+
+    public void getNome(String text) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
 }

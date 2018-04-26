@@ -12,13 +12,10 @@ import view.PrincipalView;
 
 
 public class UsuarioD {
-
-    PrincipalView principal = new PrincipalView();
     
-    
-          public static UsuarioM valida(String user, String senha) throws SQLException{
-        PreparedStatement pst;
-        String sql;
+        public static UsuarioM valida(String user, String senha) throws SQLException{
+           PreparedStatement pst;
+           String sql;
            sql = "select * from usuario where masp = ? and senha = ?";
            pst = Conexao.getInstance().prepareStatement(sql);
            pst.setString(1, user);
@@ -39,10 +36,10 @@ public class UsuarioD {
     }
         
     
-          static public List<UsuarioM> listaTodos() throws SQLException{
+    public List<UsuarioM> listaTodos() throws SQLException{
         PreparedStatement pst;
         String sql;
-        List<UsuarioM> listaUser = new ArrayList<UsuarioM>();
+        List<UsuarioM> listaUser = new ArrayList<>();
         sql = "select * from usuario";
         pst = Conexao.getInstance().prepareStatement(sql);
         ResultSet rs = pst.executeQuery();
@@ -53,16 +50,11 @@ public class UsuarioD {
                        rs.getString("masp"),
                        rs.getString("senha"),
                        rs.getBoolean("admin"),
-                       rs.getBoolean("inativo"))
-                        );
-           
-            
-             
-            
+                       rs.getBoolean("inativo")));
          }
          
-          pst.close();
-         return listaUser;
+        pst.close();
+        return listaUser;
     }
 
           
@@ -108,11 +100,11 @@ public class UsuarioD {
         pst.close();
      } 
         
-          static public UsuarioM BuscaPorNome(int id) throws SQLException {
+        public UsuarioM BuscaPorId(int id) throws SQLException {
         PreparedStatement pst;
         String sql;
         UsuarioM usuario = null;
-        sql = "Select * from usuario where nome=?";
+        sql = "Select * from usuario where id=?";
         pst = Conexao.getInstance().prepareStatement(sql);
         pst.setInt(1, id);
         pst.executeQuery();

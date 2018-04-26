@@ -46,19 +46,24 @@ public class PrincipalView extends javax.swing.JFrame {
     LogD logdao = new LogD();
     
     UsuarioM usuariologado = new UsuarioM();
-    List<UsuarioM> listaUsuario;
-    UsuarioD usuarioDAO;
-    UsuarioM usuarioM;
+    
+    List<UsuarioM> listaUsuario = new ArrayList<>();
+    UsuarioD usuarioDAO = new UsuarioD();
+    UsuarioM usuarioM = new UsuarioM();
+    
 
     public PrincipalView(UsuarioM usuario) throws SQLException {
         initComponents();
         this.setVisible(true);
+        txtIdUsuario.setVisible(false);
+        txtIdCurso.setVisible(false);
         atualizaTabelaCad();
         atualizaBoxCurso();
         atualizaBoxCursobusca();
-        preencheListaUsuario();
-        
-        
+        atualizaTabelaUsuario();
+        atualizaTabelaCurso();
+        dlgUsuario.setLocationRelativeTo(null);
+        dlgCurso.setLocationRelativeTo(null);
         txtAutor.setText("");
         txtTitulo.setText("");
         txtOrientador.setText("");
@@ -77,9 +82,10 @@ public class PrincipalView extends javax.swing.JFrame {
         btnUsuarios.setUI(new BasicButtonUI());
         btnCursos.setUI(new BasicButtonUI());
         btnSalvarUsuario.setUI(new BasicButtonUI());
-        lstUsuarios.setUI(new BasicListUI());        
+              
         btnSalvarCurso.setUI(new BasicButtonUI());
-        lstCursos.setUI(new BasicListUI());
+        //lstCursos.setUI(new BasicListUI());
+        
         
         if(usuario.getAdmin() == true){
             // btn true
@@ -89,14 +95,10 @@ public class PrincipalView extends javax.swing.JFrame {
             usuariologado = usuario;
         }
         
-        
+          
     }
-
-    public PrincipalView() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    public void atualizaTabelaCad(){
+   
+        public void atualizaTabelaCad(){
         cadtcc = new CadtccM();
         try {
             listaCadtcc = cadtccdao.listaTodos();
@@ -141,10 +143,10 @@ public class PrincipalView extends javax.swing.JFrame {
             tblTCC.updateUI();
     }
     
-    public void atualizaTabelaCadBusca(){
-        cadtcc = new CadtccM();
+          public void atualizaTabelaCadBusca(){
+            cadtcc = new CadtccM();
 
-        String dados[][] = new String[listaCadtcc.size()][4];
+            String dados[][] = new String[listaCadtcc.size()][4];
             int i = 0;
             for (CadtccM cad : listaCadtcc) {
                 dados[i][0] = String.valueOf(cad.getId());
@@ -180,6 +182,91 @@ public class PrincipalView extends javax.swing.JFrame {
             tblTCC.setRowHeight(35);
             tblTCC.updateUI();
     }
+          
+        public void atualizaTabelaUsuario() throws SQLException{
+            usuarioM = new UsuarioM();
+        try {
+            listaUsuario = usuarioDAO.listaTodos();
+        }catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        String dados[][] = new String[listaUsuario.size()][2];
+            int i = 0;
+            for (UsuarioM usu : listaUsuario) {
+                dados[i][0] = String.valueOf(usu.getId());
+                dados[i][1] = usu.getNome();
+
+                i++;
+            }
+            String tituloColuna[] = {"ID", "Nome"};
+            DefaultTableModel tabelausu = new DefaultTableModel();
+            tabelausu.setDataVector(dados, tituloColuna);
+            tblUsuarios.setModel(new DefaultTableModel(dados, tituloColuna) {
+                boolean[] canEdit = new boolean[]{
+                    false, false
+                };
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            });
+
+            tblUsuarios.getColumnModel().getColumn(0).setMaxWidth(0);
+            tblUsuarios.getColumnModel().getColumn(0).setMinWidth(0);
+            tblUsuarios.getColumnModel().getColumn(0).setPreferredWidth(0);
+            tblUsuarios.getColumnModel().getColumn(1).setPreferredWidth(100);
+            
+            DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+            centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+            tblUsuarios.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+            tblUsuarios.setRowHeight(35);
+            tblUsuarios.updateUI();
+        }
+        
+        
+            public void atualizaTabelaCurso() throws SQLException{
+            curso = new CursoM();
+        try {
+            listaCurso = cursodao.ListaCurso();
+        }catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        String dados[][] = new String[listaCurso.size()][2];
+            int i = 0;
+            for (CursoM cur : listaCurso) {
+                dados[i][0] = String.valueOf(cur.getId());
+                dados[i][1] = cur.getNome();
+
+                i++;
+            }
+            String tituloColuna[] = {"ID", "Cursos"};
+            DefaultTableModel tabelacur = new DefaultTableModel();
+            tabelacur.setDataVector(dados, tituloColuna);
+           tblCursos.setModel(new DefaultTableModel(dados, tituloColuna) {
+                boolean[] canEdit = new boolean[]{
+                    false, false
+                };
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            });
+
+            tblCursos.getColumnModel().getColumn(0).setMaxWidth(0);
+            tblCursos.getColumnModel().getColumn(0).setMinWidth(0);
+            tblCursos.getColumnModel().getColumn(0).setPreferredWidth(0);
+            tblCursos.getColumnModel().getColumn(1).setPreferredWidth(100);
+            
+            DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+            centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+            tblCursos.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+            tblCursos.setRowHeight(35);
+            tblCursos.updateUI();
+        }
     
     public void atualizaBoxCurso(){
         cbxCurso.removeAllItems();
@@ -208,7 +295,7 @@ public class PrincipalView extends javax.swing.JFrame {
         }
     } 
     
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -217,9 +304,9 @@ public class PrincipalView extends javax.swing.JFrame {
         pnlTitulo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         pnlUsuarios = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        lstUsuarios = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblUsuarios = new javax.swing.JTable();
         pnlNovoUsuario = new javax.swing.JPanel();
         lblMASP = new javax.swing.JLabel();
         txtMasp = new javax.swing.JTextField();
@@ -231,17 +318,19 @@ public class PrincipalView extends javax.swing.JFrame {
         ckb_Inativo = new javax.swing.JCheckBox();
         lblConfirmarSenhaUsuario = new javax.swing.JLabel();
         txtConfirmarSenha = new javax.swing.JPasswordField();
+        txtIdUsuario = new javax.swing.JTextField();
         dlgCurso = new javax.swing.JDialog();
         pnlTitulo1 = new javax.swing.JPanel();
         lblTituloCurso = new javax.swing.JLabel();
         pnlUsuarios1 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        lstCursos = new javax.swing.JList<>();
         jLabel4 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblCursos = new javax.swing.JTable();
         pnlNovoUsuario1 = new javax.swing.JPanel();
         lblNomeCurso = new javax.swing.JLabel();
         txtNomeCurso = new javax.swing.JTextField();
         btnSalvarCurso = new javax.swing.JButton();
+        txtIdCurso = new javax.swing.JTextField();
         pnlUsuario = new javax.swing.JPanel();
         lblUsuario = new javax.swing.JLabel();
         btnUsuarios = new javax.swing.JButton();
@@ -313,31 +402,31 @@ public class PrincipalView extends javax.swing.JFrame {
         pnlUsuarios.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(238, 238, 238)));
         pnlUsuarios.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jScrollPane2.setBorder(null);
-
-        lstUsuarios.setBackground(new java.awt.Color(250, 250, 250));
-        lstUsuarios.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(238, 238, 238)), javax.swing.BorderFactory.createEmptyBorder(3, 10, 4, 3)));
-        lstUsuarios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lstUsuarios.setForeground(new java.awt.Color(29, 31, 40));
-        lstUsuarios.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "user 1", "user 2" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        lstUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lstUsuariosMouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(lstUsuarios);
-
-        pnlUsuarios.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 270, 330));
-
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(29, 31, 40));
         jLabel2.setText("Usuários do Sistema");
         jLabel2.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new java.awt.Color(238, 238, 238)), javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0)));
         pnlUsuarios.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 270, 50));
+
+        tblUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "Nome"
+            }
+        ));
+        tblUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblUsuariosMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tblUsuarios);
+
+        pnlUsuarios.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 270, 350));
 
         dlgUsuario.getContentPane().add(pnlUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 270, 400));
 
@@ -414,6 +503,7 @@ public class PrincipalView extends javax.swing.JFrame {
         txtConfirmarSenha.setToolTipText("Digite sua senha");
         txtConfirmarSenha.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(59, 110, 143)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 10)));
         pnlNovoUsuario.add(txtConfirmarSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, 210, 30));
+        pnlNovoUsuario.add(txtIdUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 60, -1));
 
         dlgUsuario.getContentPane().add(pnlNovoUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 60, 490, 400));
 
@@ -438,26 +528,31 @@ public class PrincipalView extends javax.swing.JFrame {
         pnlUsuarios1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(238, 238, 238)));
         pnlUsuarios1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jScrollPane3.setBorder(null);
-
-        lstCursos.setBackground(new java.awt.Color(250, 250, 250));
-        lstCursos.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(238, 238, 238)), javax.swing.BorderFactory.createEmptyBorder(3, 10, 4, 3)));
-        lstCursos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lstCursos.setForeground(new java.awt.Color(29, 31, 40));
-        lstCursos.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "user 1", "user 2" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane3.setViewportView(lstCursos);
-
-        pnlUsuarios1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 270, 330));
-
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(29, 31, 40));
         jLabel4.setText("Cursos no Sistema");
         jLabel4.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new java.awt.Color(238, 238, 238)), javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0)));
         pnlUsuarios1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 270, 50));
+
+        tblCursos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblCursos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCursosMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblCursos);
+
+        pnlUsuarios1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 270, 350));
 
         dlgCurso.getContentPane().add(pnlUsuarios1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 270, 400));
 
@@ -487,6 +582,7 @@ public class PrincipalView extends javax.swing.JFrame {
             }
         });
         pnlNovoUsuario1.add(btnSalvarCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 340, 140, 40));
+        pnlNovoUsuario1.add(txtIdCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, 60, -1));
 
         dlgCurso.getContentPane().add(pnlNovoUsuario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 60, 490, 400));
 
@@ -1353,9 +1449,9 @@ public class PrincipalView extends javax.swing.JFrame {
         if(txtNome.getText().isEmpty() || txtMasp.getText().isEmpty() || txtSenha.getText().isEmpty() || txtConfirmarSenha.getText().isEmpty()){
              JOptionPane.showMessageDialog(null, "Prencha todos os campos.", "Erro", JOptionPane.WARNING_MESSAGE);
             txtNome.requestFocusInWindow();
-        } else if (txtId.getText().isEmpty()){
+        } else if (txtIdUsuario.getText().isEmpty()){
             if(txtSenha.getText().equals(txtConfirmarSenha.getText())){
-                
+                 
                 usuarioM = new UsuarioM();
                 usuarioM.setNome(txtNome.getText());
                 usuarioM.setMasp(txtMasp.getText());
@@ -1365,7 +1461,14 @@ public class PrincipalView extends javax.swing.JFrame {
                 try {
                     UsuarioD.salvar(usuarioM);
                     JOptionPane.showMessageDialog(null, "Usuario Gravado com Sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-
+                    
+                    atualizaTabelaUsuario();
+                    txtNome.setText("");
+                    txtMasp.setText("");
+                    txtSenha.setText("");
+                    txtConfirmarSenha.setText("");
+                    txtNome.requestFocusInWindow();
+                    
                 } catch (SQLException ex) {
                     Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
                  if (ex.getErrorCode() == 1062) {
@@ -1374,55 +1477,97 @@ public class PrincipalView extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, ex.getMessage());
                     }
                 }
-            }else{
-                JOptionPane.showMessageDialog(null, "Senhas não coincidem", "Erro", JOptionPane.WARNING_MESSAGE);
-            
-        }
+            }else {
+                JOptionPane.showMessageDialog(null, "Senhas não coincidem.", "Erro", JOptionPane.WARNING_MESSAGE);                 
+            }
+        }    
+        
+        else{ if(txtSenha.getText().equals(txtConfirmarSenha.getText())){
+                usuarioM = new UsuarioM();
+                usuarioM.setId(Integer.parseInt(txtIdUsuario.getText()));
+                usuarioM.setNome(txtNome.getText());
+                usuarioM.setMasp(txtMasp.getText());
+                usuarioM.setSenha(txtSenha.getText());
+                usuarioM.setAdmin(false);
+                usuarioM.setInativo(ckb_Inativo.isSelected());
+                
+                try {
+                    UsuarioD.alterar(usuarioM);
+                    JOptionPane.showMessageDialog(null, "Usuário atualizado com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    atualizaTabelaUsuario();                
+                    txtNome.setText("");
+                    txtMasp.setText("");
+                    txtSenha.setText("");
+                    txtConfirmarSenha.setText("");
+                    txtNome.requestFocusInWindow();
+                    
+                } catch (SQLException ex) {
+                    if (ex.getErrorCode() == 1062) {
+                        JOptionPane.showMessageDialog(null, "Usuário com nome já existente.", "Erro", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    }
+            }                
+                }else{
+                JOptionPane.showMessageDialog(null, "Senhas não coincidem.", "Erro", JOptionPane.WARNING_MESSAGE);
+            }
+                    
     }
     }//GEN-LAST:event_btnSalvarUsuarioActionPerformed
 
-        public void preencheListaUsuario() throws SQLException{
-            
-        DefaultListModel m = new DefaultListModel();    
-        try{
-          
-        PreparedStatement pst;
-        String sql;
-        sql = "select * from usuario";
-        pst = Conexao.getInstance().prepareStatement(sql);
-        ResultSet rs = pst.executeQuery();
-        
-        while(rs.next()){
-         
-         int id = rs.getInt("id");
-         String nome = rs.getString("nome");
-         String masp = rs.getString("masp");
-         String senha = rs.getString("senha");
-         Boolean admin = rs.getBoolean("admin");
-         Boolean inativo = rs.getBoolean("inativo");
-         
-         
-         m.addElement(nome);
-        }
-        lstUsuarios.setModel(m);
-        }
-        catch (SQLException ex){
-            JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage());
-        }
-       
-    }
+      
 
  
     
     private void btnSalvarCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCursoActionPerformed
         // Salva ou edita o curso
-        if(!txtNomeCurso.getText().isEmpty()){
-            // Salvar
+        if(txtNomeCurso.getText().isEmpty()){
+          JOptionPane.showMessageDialog(null, "Prencha o campo curso.", "Erro", JOptionPane.WARNING_MESSAGE);
+          txtNomeCurso.requestFocusInWindow();
+        } 
+        else if(txtIdCurso.getText().isEmpty()){        
+                curso = new CursoM();
+                curso.setNome(txtNomeCurso.getText());
+            try {
+
+                cursodao.Salvar(curso);
+                JOptionPane.showMessageDialog(null, "Curso Gravado com Sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                atualizaTabelaCurso();
+                txtNomeCurso.setText("");
+                txtNomeCurso.requestFocusInWindow();
+              
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
+             if (ex.getErrorCode() == 1062) {
+                    JOptionPane.showMessageDialog(null, "Curso já existente.", "Erro", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
+            }
+        }  
+        else{ 
+                curso = new CursoM();
+                curso.setId(Integer.parseInt(txtIdCurso.getText()));
+                curso.setNome(txtNomeCurso.getText());
+                
+                
+                try {
+                    CursoD.alterar(curso);
+                    JOptionPane.showMessageDialog(null, "Curso atualizado com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    atualizaTabelaCurso();                
+                    txtNomeCurso.setText("");
+                    txtNomeCurso.requestFocusInWindow();
+                    
+                } catch (SQLException ex) {
+                    if (ex.getErrorCode() == 1062) {
+                        JOptionPane.showMessageDialog(null, "Usuário com nome já existente.", "Erro", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    }
+               }              
+                
         }
-        else{
-            JOptionPane.showMessageDialog(null, "O campo nome deve ser preenchido!");
-        }
-        
     }//GEN-LAST:event_btnSalvarCursoActionPerformed
 
     private void btnSubirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubirActionPerformed
@@ -1441,47 +1586,49 @@ public class PrincipalView extends javax.swing.JFrame {
     
     }//GEN-LAST:event_txtNomeActionPerformed
 
-    private void lstUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstUsuariosMouseClicked
-        String tmp = (String)lstUsuarios.getSelectedValue();
-        //txtNome.setText(tmp);
+    private void tblUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUsuariosMouseClicked
+        usuarioM = new UsuarioM();
+        
+        txtIdUsuario.setText(tblUsuarios.getValueAt(tblUsuarios.getSelectedRow(),0).toString());
+        int idBusca = Integer.valueOf(txtIdUsuario.getText());
+        
         try {
-        PreparedStatement pst;
-        String sql;
-        sql = "select * from usuario where id = ?";
-            pst = Conexao.getInstance().prepareStatement(sql);
-            ResultSet rs = pst.executeQuery();
-            pst.setString(1, tmp);
-            while(rs.next()){
-                
-                //txtNome.setText(lstUsuarios.getValueAt(usuarioM(listaUsuario),lstUsuarios.getSelectedValuesList(), 1).toString());
-                
-                //usuarioM = UsuarioD.BuscaPorNome(Integer.parseInt(txtNome.getText()));
-                
-                
-                int id = rs.getInt("id");
-                                
-                String nome = rs.getString("nome");
-                txtNome.setText(nome);
-                
-                String masp = rs.getString("masp");
-                txtMasp.setText(masp);
-                
-                String senha = rs.getString("senha");
-                txtSenha.setText(senha);                               
-                txtConfirmarSenha.setText(senha);
-                
-                boolean admin = rs.getBoolean("admin");
-                
-                boolean inativo = rs.getBoolean("inativo");
-            }
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+            usuarioM = usuarioDAO.BuscaPorId(idBusca);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+        }
         
         
-    }//GEN-LAST:event_lstUsuariosMouseClicked
+        tblUsuarios.getTableHeader().setReorderingAllowed(false);
+        txtIdUsuario.setText(Integer.toString(usuarioM.getId()));
+        txtNome.setText(usuarioM.getNome());
+        txtMasp.setText(usuarioM.getMasp());
+        txtSenha.setText(usuarioM.getSenha());
+        txtConfirmarSenha.setText(usuarioM.getSenha());
+        
+        
+        
+      
+    }//GEN-LAST:event_tblUsuariosMouseClicked
+
+    private void tblCursosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCursosMouseClicked
+    curso = new CursoM();
+    
+    txtIdCurso.setText(tblCursos.getValueAt(tblCursos.getSelectedRow(),0).toString());
+        int idBusca = Integer.valueOf(txtIdCurso.getText());
+        
+        try {
+            curso = cursodao.busca(idBusca);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        tblUsuarios.getTableHeader().setReorderingAllowed(false);
+        txtIdCurso.setText(Integer.toString(curso.getId()));
+        txtNomeCurso.setText(curso.getNome());
+        
+    
+    }//GEN-LAST:event_tblCursosMouseClicked
 
     public void limparcampos(){
     txtApresentacao.setValue("");
@@ -1517,7 +1664,7 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lblApresentacao;
     private javax.swing.JLabel lblAutor;
     private javax.swing.JLabel lblBusca;
@@ -1537,8 +1684,6 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTituloCurso;
     private javax.swing.JLabel lblUsuario;
-    private javax.swing.JList<String> lstCursos;
-    private javax.swing.JList<String> lstUsuarios;
     private javax.swing.JPanel pnlDados;
     private javax.swing.JPanel pnlFrame;
     private javax.swing.JPanel pnlNovoUsuario;
@@ -1549,7 +1694,9 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JPanel pnlUsuario;
     private javax.swing.JPanel pnlUsuarios;
     private javax.swing.JPanel pnlUsuarios1;
+    private javax.swing.JTable tblCursos;
     private javax.swing.JTable tblTCC;
+    private javax.swing.JTable tblUsuarios;
     private javax.swing.JFormattedTextField txtApresentacao;
     private javax.swing.JTextField txtAutor;
     private javax.swing.JTextField txtBusca;
@@ -1557,6 +1704,8 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JTextField txtCoorientador;
     private javax.swing.JFormattedTextField txtEntrega;
     private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtIdCurso;
+    private javax.swing.JTextField txtIdUsuario;
     private javax.swing.JTextField txtMasp;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtNomeCurso;
