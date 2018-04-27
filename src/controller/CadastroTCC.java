@@ -4,11 +4,11 @@ import view.LoginView;
 
 public class CadastroTCC {
     
-    public static void main(String Args[]){
-        
-         LoginView login = new LoginView();
-         
-         login.setVisible(true);
-    }
+    /*public static void main(String Args[]){
+    
+    LoginView login = new LoginView();
+    
+    login.setVisible(true);
+    }*/
     
 }
