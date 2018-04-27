@@ -22,8 +22,8 @@ USE `CADTCC` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `CADTCC`.`Usuario` (
   `Id` INT NOT NULL AUTO_INCREMENT,
-  `Nome` VARCHAR(45) NOT NULL,
-  `Masp` VARCHAR(10) NOT NULL,
+  `Nome` VARCHAR(45) NOT NULL UNIQUE,
+  `Masp` VARCHAR(10) NOT NULL UNIQUE,
   `Senha` VARCHAR(20) NOT NULL,
   `Admin` TINYINT(1) NULL,
   `Inativo` TINYINT(1) NULL,
@@ -36,7 +36,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `CADTCC`.`Curso` (
   `Id` INT NOT NULL AUTO_INCREMENT,
-  `Nome` VARCHAR(45) NOT NULL,
+  `Nome` VARCHAR(45) NOT NULL UNIQUE,
   PRIMARY KEY (`Id`))
 ENGINE = InnoDB;
 
@@ -89,6 +89,7 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
-insert into usuario values (null, "root", "root", "root", false, false);
+insert into usuario values (null, "root", "root", "root", true, false);
 
-select * from usuario;
+
+

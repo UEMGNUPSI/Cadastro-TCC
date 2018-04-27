@@ -90,9 +90,12 @@ public class PrincipalView extends javax.swing.JFrame {
         if(usuario.getAdmin() == true){
             // btn true
             usuariologado = usuario;
+            
         }else if(usuario.getAdmin() == false){
             // btn false
             usuariologado = usuario;
+            btnUsuarios.setVisible(false);
+            btnCursos.setVisible(false);
         }
         
           
@@ -1460,7 +1463,7 @@ public class PrincipalView extends javax.swing.JFrame {
                 usuarioM.setInativo(ckb_Inativo.isSelected());
                 try {
                     UsuarioD.salvar(usuarioM);
-                    JOptionPane.showMessageDialog(null, "Usuario Gravado com Sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Usuario cadastrado com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     
                     atualizaTabelaUsuario();
                     txtNome.setText("");
@@ -1472,7 +1475,7 @@ public class PrincipalView extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                     Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
                  if (ex.getErrorCode() == 1062) {
-                        JOptionPane.showMessageDialog(null, "Usuario já existente.", "Erro", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Usuario ou MASP já existentes.", "Erro", JOptionPane.WARNING_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(null, ex.getMessage());
                     }
@@ -1503,7 +1506,7 @@ public class PrincipalView extends javax.swing.JFrame {
                     
                 } catch (SQLException ex) {
                     if (ex.getErrorCode() == 1062) {
-                        JOptionPane.showMessageDialog(null, "Usuário com nome já existente.", "Erro", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Usuario ou MASP já existentes.", "Erro", JOptionPane.WARNING_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(null, ex.getMessage());
                     }
@@ -1531,10 +1534,11 @@ public class PrincipalView extends javax.swing.JFrame {
             try {
 
                 cursodao.Salvar(curso);
-                JOptionPane.showMessageDialog(null, "Curso Gravado com Sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Curso cadastrado com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 atualizaTabelaCurso();
                 txtNomeCurso.setText("");
                 txtNomeCurso.requestFocusInWindow();
+                atualizaBoxCurso();
               
                 
             } catch (SQLException ex) {
@@ -1561,7 +1565,7 @@ public class PrincipalView extends javax.swing.JFrame {
                     
                 } catch (SQLException ex) {
                     if (ex.getErrorCode() == 1062) {
-                        JOptionPane.showMessageDialog(null, "Usuário com nome já existente.", "Erro", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Curso com nome já existente.", "Erro", JOptionPane.WARNING_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(null, ex.getMessage());
                     }
