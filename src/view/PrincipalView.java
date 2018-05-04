@@ -1165,7 +1165,9 @@ public class PrincipalView extends javax.swing.JFrame {
             Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-            if((!txtAutor.getText().isEmpty()) || (!txtOrientador.getText().isEmpty()) ){
+        if(!txtAutor.getText().equals("") || !(txtOrientador.getText().equals("")) 
+                    || !(txtTitulo.getText().equals("")) || !txtRegistro.getText().equals("")
+                    || !txtRegistro.getText().equals("")){
 
                 if(cbxCoorientador.isSelected()== true && txtCoorientador.getText().isEmpty()){
                     JOptionPane.showMessageDialog(null, "Preencha o Nome do Coordenador", "erro", JOptionPane.WARNING_MESSAGE);
@@ -1269,7 +1271,7 @@ public class PrincipalView extends javax.swing.JFrame {
                     Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if(cadtcc == null){
-                    txtRegistro.setText("1");
+                    txtRegistro.setText(cadtcc.getRegistro());
                 }else{
                     txtRegistro.setText(cadtcc.getRegistro());
                 }
@@ -1317,7 +1319,7 @@ public class PrincipalView extends javax.swing.JFrame {
                     Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if(cadtcc == null){
-                    txtRegistro.setText("1");
+                    txtRegistro.setText(cadtcc.getRegistro());
                 }else{
                     txtRegistro.setText(cadtcc.getRegistro());
                 }
@@ -1441,15 +1443,16 @@ public class PrincipalView extends javax.swing.JFrame {
         txtId.setText(String.valueOf(cadtcc.getId()));
         txtRegistro.setText(cadtcc.getRegistro());
         txtTitulo.setText(cadtcc.getTitulo());
-        cbxCurso.setSelectedIndex(cadtcc.getIdCurso().getId());
+        cbxCurso.setSelectedItem(tblTCC.getValueAt(tblTCC.getSelectedRow(),3).toString());
         //(cadtcc.getTrabalho());
         
-        if (!(cadtcc.getCoorientador().isEmpty())) {
-            cbxCoorientador.setSelected(true);
-            txtCoorientador.setText(cadtcc.getCoorientador());
-        }else{
+        if (cadtcc.getCoorientador().isEmpty()) {
             cbxCoorientador.setSelected(false);
             txtCoorientador.setText("");
+            
+        }else{
+            cbxCoorientador.setSelected(true);
+            txtCoorientador.setText(cadtcc.getCoorientador());
         }
         
         btnEditar.setEnabled(true);
