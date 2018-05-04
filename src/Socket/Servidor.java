@@ -20,7 +20,7 @@ import sun.nio.ch.ServerSocketAdaptor;
 public class Servidor {
     
     
-    public static void main (String[]args) throws UnknownHostException,IOException{
+    /*public static void main (String[]args) throws UnknownHostException,IOException{
     ServerSocket servidor = new ServerSocket(1234);
     Socket sv = servidor.accept();
     
@@ -33,5 +33,5 @@ public class Servidor {
         if(len == -1)break;
         file.write(buf,0,len);
     }
-    }
+    }*/
 }

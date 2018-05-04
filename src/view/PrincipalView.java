@@ -1539,9 +1539,11 @@ public class PrincipalView extends javax.swing.JFrame {
                 cursodao.Salvar(curso);
                 JOptionPane.showMessageDialog(null, "Curso cadastrado com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 atualizaTabelaCurso();
+                atualizaBoxCursobusca();
                 txtNomeCurso.setText("");
                 txtNomeCurso.requestFocusInWindow();
                 atualizaBoxCurso();
+                atualizaBoxCursobusca();
               
                 
             } catch (SQLException ex) {
@@ -1562,7 +1564,8 @@ public class PrincipalView extends javax.swing.JFrame {
                 try {
                     CursoD.alterar(curso);
                     JOptionPane.showMessageDialog(null, "Curso atualizado com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                    atualizaTabelaCurso();                
+                    atualizaTabelaCurso(); 
+                    atualizaBoxCursobusca();
                     txtNomeCurso.setText("");
                     txtNomeCurso.requestFocusInWindow();
                     

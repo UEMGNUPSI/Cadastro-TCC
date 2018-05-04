@@ -22,10 +22,10 @@ public class Conexao implements Serializable {
 
     private Conexao() {
         
-        usuario = "root";        
-        senha = "root";
+        usuario = "tcc";        
+        senha = "Uemg2018";
 
-        url = "jdbc:mysql://localhost:3306/cadtcc";      
+        url = "jdbc:mysql://10.93.10.10:3306/cadtcc";      
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(url, usuario, senha);

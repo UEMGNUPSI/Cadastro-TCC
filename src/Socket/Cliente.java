@@ -18,7 +18,7 @@ import java.net.UnknownHostException;
 public class Cliente{
     
     
-    public static void main (String[]args)throws UnknownHostException,IOException{
+    /*public static void main (String[]args)throws UnknownHostException,IOException{
     Socket cliente = new Socket("192.168.0.104",1234);
 
     
@@ -31,4 +31,5 @@ public class Cliente{
             out.write(buf,0,len);
         }
     }
+*/
 }
