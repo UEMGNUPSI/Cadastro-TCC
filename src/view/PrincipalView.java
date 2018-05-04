@@ -89,7 +89,7 @@ public class PrincipalView extends javax.swing.JFrame {
         btnSalvarCurso.setUI(new BasicButtonUI());
         //lstCursos.setUI(new BasicListUI());
         
-        
+        lblUsuario.setText(usuario.getNome());
         if(usuario.getAdmin() == true){
             // btn true
             usuariologado = usuario;
