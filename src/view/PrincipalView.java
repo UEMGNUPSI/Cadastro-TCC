@@ -1224,7 +1224,7 @@ public class PrincipalView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroActionPerformed
-        // Novo cadastro, aqui deve possuir uma jdialog para ter certeza que deseja criar um novo usuário caso tenha dados preencidos
+// Novo cadastro, aqui deve possuir uma jdialog para ter certeza que deseja criar um novo usuário caso tenha dados preencidos
         
         if((txtAutor.isEnabled() && !txtAutor.getText().equals("")) || (txtTitulo.isEnabled() && !txtTitulo.getText().equals("")) 
                 || (txtApresentacao.isEnabled() && !txtApresentacao.getText().equals("")) || (txtEntrega.isEnabled() && !txtEntrega.getText().equals("")) 
@@ -1232,7 +1232,8 @@ public class PrincipalView extends javax.swing.JFrame {
             int res = JOptionPane.showConfirmDialog(null,"Existem campos preenchidos, caso deseje criar um novo cadastro todos os dados editados serão perdidos. Deseja criar um novo cadastro?", "Novo Cadastro", JOptionPane.YES_NO_OPTION);
             // Novo Cadastro
             if(res == JOptionPane.YES_OPTION){
-                
+                cadtcc = new CadtccM();
+                tblTCC.clearSelection();
                 try {
                     cadtcc = cadtccdao.buscaUltimoRegistro();
                 } catch (SQLException ex) {
