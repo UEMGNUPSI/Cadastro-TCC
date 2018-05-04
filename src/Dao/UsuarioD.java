@@ -84,7 +84,7 @@ public class UsuarioD {
         pst.close();
     }
          
-          static public void alterar(UsuarioM usuario) throws SQLException{
+        static public void alterar(UsuarioM usuario) throws SQLException{
          PreparedStatement pst;
          String sql;
          sql = "update usuario set nome = ?, masp = ?, senha = ?, admin = ?, inativo = ? where id = ?";

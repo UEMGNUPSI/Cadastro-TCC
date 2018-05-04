@@ -325,6 +325,7 @@ public class PrincipalView extends javax.swing.JFrame {
         lblConfirmarSenhaUsuario = new javax.swing.JLabel();
         txtConfirmarSenha = new javax.swing.JPasswordField();
         txtIdUsuario = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         dlgCurso = new javax.swing.JDialog();
         pnlTitulo1 = new javax.swing.JPanel();
         lblTituloCurso = new javax.swing.JLabel();
@@ -337,6 +338,7 @@ public class PrincipalView extends javax.swing.JFrame {
         txtNomeCurso = new javax.swing.JTextField();
         btnSalvarCurso = new javax.swing.JButton();
         txtIdCurso = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
         pnlUsuario = new javax.swing.JPanel();
         lblUsuario = new javax.swing.JLabel();
         btnUsuarios = new javax.swing.JButton();
@@ -511,6 +513,16 @@ public class PrincipalView extends javax.swing.JFrame {
         pnlNovoUsuario.add(txtConfirmarSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, 210, 30));
         pnlNovoUsuario.add(txtIdUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 60, -1));
 
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(29, 31, 40));
+        jButton1.setText("Novo");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        pnlNovoUsuario.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 340, -1, 40));
+
         dlgUsuario.getContentPane().add(pnlNovoUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 60, 490, 400));
 
         dlgCurso.setTitle("Usuários");
@@ -589,6 +601,16 @@ public class PrincipalView extends javax.swing.JFrame {
         });
         pnlNovoUsuario1.add(btnSalvarCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 340, 140, 40));
         pnlNovoUsuario1.add(txtIdCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, 60, -1));
+
+        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(29, 31, 40));
+        jButton2.setText("Novo");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        pnlNovoUsuario1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 340, -1, 40));
 
         dlgCurso.getContentPane().add(pnlNovoUsuario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 60, 490, 400));
 
@@ -1225,7 +1247,6 @@ public class PrincipalView extends javax.swing.JFrame {
 
     private void btnCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroActionPerformed
 // Novo cadastro, aqui deve possuir uma jdialog para ter certeza que deseja criar um novo usuário caso tenha dados preencidos
-        
         if((txtAutor.isEnabled() && !txtAutor.getText().equals("")) || (txtTitulo.isEnabled() && !txtTitulo.getText().equals("")) 
                 || (txtApresentacao.isEnabled() && !txtApresentacao.getText().equals("")) || (txtEntrega.isEnabled() && !txtEntrega.getText().equals("")) 
                 || (cbxCurso.isEnabled() && cbxCurso.getSelectedIndex() != 0)){
@@ -1261,6 +1282,9 @@ public class PrincipalView extends javax.swing.JFrame {
                 btnEditar.setEnabled(false);
             }
         }else{
+            cadtcc = new CadtccM();
+            tblTCC.clearSelection();
+            
             txtRegistro.setEnabled(true);
             txtAutor.setEnabled(true);
             txtTitulo.setEnabled(true);
@@ -1289,7 +1313,7 @@ public class PrincipalView extends javax.swing.JFrame {
                 }else{
                     txtRegistro.setText(cadtcc.getRegistro());
                 }
-                
+                txtId.setText("");
                 txtAutor.setText("");
                 txtTitulo.setText("");
                 txtOrientador.setText("");
@@ -1487,9 +1511,7 @@ public class PrincipalView extends javax.swing.JFrame {
             }else {
                 JOptionPane.showMessageDialog(null, "Senhas não coincidem.", "Erro", JOptionPane.WARNING_MESSAGE);                 
             }
-        }    
-        
-        else{ if(txtSenha.getText().equals(txtConfirmarSenha.getText())){
+        }        else{ if(txtSenha.getText().equals(txtConfirmarSenha.getText())){
                 usuarioM = new UsuarioM();
                 usuarioM.setId(Integer.parseInt(txtIdUsuario.getText()));
                 usuarioM.setNome(txtNome.getText());
@@ -1659,6 +1681,21 @@ public class PrincipalView extends javax.swing.JFrame {
     
     }//GEN-LAST:event_tblCursosMouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        txtNome.setText("");
+        txtMasp.setText("");
+        txtSenha.setText("");
+        txtConfirmarSenha.setText("");
+        ckb_Inativo.setSelected(false);
+        tblUsuarios.clearSelection();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        txtNomeCurso.setText("");
+        txtIdCurso.setText("");
+        tblCursos.clearSelection();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     public void limparcampos(){
     txtApresentacao.setValue("");
     txtAutor.setText("");
@@ -1688,6 +1725,8 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JCheckBox ckb_Inativo;
     private javax.swing.JDialog dlgCurso;
     private javax.swing.JDialog dlgUsuario;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
