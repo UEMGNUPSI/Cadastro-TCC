@@ -1142,7 +1142,14 @@ public class PrincipalView extends javax.swing.JFrame {
         log = new LogM();
 
         String name = txtAutor.getText();
-        if(name.charAt(name.length()-1) != ' '){
+        
+          if(txtAutor.getText().equals("") || txtOrientador.getText().equals("")
+                    || txtTitulo.getText().equals("") || txtRegistro.getText().equals("") || cbxCurso.getSelectedIndex() == 0){
+             
+              JOptionPane.showMessageDialog(null, "Preencha todos os campos para continuar!", "erro", JOptionPane.WARNING_MESSAGE);
+         }
+          
+          else if(name.charAt(name.length()-1) != ' '){
             
         String NomeCompleto = txtAutor.getText();
         String PrimeiroNome, UltimoNome;
@@ -1161,16 +1168,16 @@ public class PrincipalView extends javax.swing.JFrame {
         try {
             curso = cursodao.buscaNome(cbxCurso.getSelectedItem().toString());
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Curso não encontrado", "erro", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Curso não encontrado.", "erro", JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        if(!txtAutor.getText().equals("") || !(txtOrientador.getText().equals("")) 
-                    || !(txtTitulo.getText().equals("")) || !txtRegistro.getText().equals("")
+                                
+        if(!txtAutor.getText().equals("") || !txtOrientador.getText().equals("")
+                    || !txtTitulo.getText().equals("") || !txtRegistro.getText().equals("")
                     || !txtRegistro.getText().equals("")){
 
                 if(cbxCoorientador.isSelected()== true && txtCoorientador.getText().isEmpty()){
-                    JOptionPane.showMessageDialog(null, "Preencha o Nome do Coordenador", "erro", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Preencha o nome do Coorientador.", "erro", JOptionPane.WARNING_MESSAGE);
 
                 }else if(txtId.getText().isEmpty()){
                     // salvar
@@ -1207,6 +1214,10 @@ public class PrincipalView extends javax.swing.JFrame {
                         txtEntrega.setEnabled(false);
                         cbxCoorientador.setEnabled(false);
                         cbxCurso.setEnabled(false);
+                         btnSalvar.setEnabled(false);
+                         btnExcluir.setEnabled(false);
+                         btnSubir.setEnabled(false);
+                         btnEditar.setEnabled(true);
                         
                     } catch (SQLException ex) {
                         Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
@@ -1215,7 +1226,7 @@ public class PrincipalView extends javax.swing.JFrame {
                     
                 }else{
                     cadtcc.setId(Integer.valueOf(txtId.getText()));
-                    cadtcc.setAutor(txtNome.getText());
+                    cadtcc.setAutor(txtAutor.getText());
                     cadtcc.setTitulo(txtTitulo.getText());
                     cadtcc.setOrientador(txtOrientador.getText());
                     cadtcc.setCoorientador(txtCoorientador.getText());
@@ -1235,20 +1246,19 @@ public class PrincipalView extends javax.swing.JFrame {
                         logdao.Salvar(log);
                         JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                         atualizaTabelaCad();
+                         btnSalvar.setEnabled(false);
+                         btnExcluir.setEnabled(false);
+                         btnSubir.setEnabled(false);
+                         btnEditar.setEnabled(true);
                     } catch (SQLException ex) {
                         Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
                         JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
                     }
                     limparcampos();
                 }
-                btnSalvar.setEnabled(false);
-                btnExcluir.setEnabled(false);
-                btnSubir.setEnabled(false);
-                btnEditar.setEnabled(true);
+                
             }
-            else{
-                JOptionPane.showMessageDialog(null, "Existem campos não preenchidos.");
-            }
+            
         }   
         else{
             JOptionPane.showMessageDialog( null, "Remova o espaço depois do seu ultimo nome!");
