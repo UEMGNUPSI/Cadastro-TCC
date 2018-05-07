@@ -77,6 +77,8 @@ public class PrincipalView extends javax.swing.JFrame {
         txtEntrega.setText("");
         txtApresentacao.setText("");
         btnEditar.setEnabled(false);
+        btnNovoCurso.setUI(new BasicButtonUI());
+        btnNovoUsuario.setUI(new BasicButtonUI());
         btnSalvar.setUI(new BasicButtonUI());
         btnExcluir.setUI(new BasicButtonUI());
         btnEditar.setUI(new BasicButtonUI());
@@ -324,7 +326,7 @@ public class PrincipalView extends javax.swing.JFrame {
         lblConfirmarSenhaUsuario = new javax.swing.JLabel();
         txtConfirmarSenha = new javax.swing.JPasswordField();
         txtIdUsuario = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnNovoUsuario = new javax.swing.JButton();
         dlgCurso = new javax.swing.JDialog();
         pnlTitulo1 = new javax.swing.JPanel();
         lblTituloCurso = new javax.swing.JLabel();
@@ -337,7 +339,7 @@ public class PrincipalView extends javax.swing.JFrame {
         txtNomeCurso = new javax.swing.JTextField();
         btnSalvarCurso = new javax.swing.JButton();
         txtIdCurso = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        btnNovoCurso = new javax.swing.JButton();
         pnlUsuario = new javax.swing.JPanel();
         lblUsuario = new javax.swing.JLabel();
         btnUsuarios = new javax.swing.JButton();
@@ -512,15 +514,15 @@ public class PrincipalView extends javax.swing.JFrame {
         pnlNovoUsuario.add(txtConfirmarSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, 210, 30));
         pnlNovoUsuario.add(txtIdUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 60, -1));
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(29, 31, 40));
-        jButton1.setText("Novo");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnNovoUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnNovoUsuario.setForeground(new java.awt.Color(29, 31, 40));
+        btnNovoUsuario.setText("Novo");
+        btnNovoUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnNovoUsuarioActionPerformed(evt);
             }
         });
-        pnlNovoUsuario.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 340, -1, 40));
+        pnlNovoUsuario.add(btnNovoUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 340, -1, 40));
 
         dlgUsuario.getContentPane().add(pnlNovoUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 60, 490, 400));
 
@@ -601,15 +603,15 @@ public class PrincipalView extends javax.swing.JFrame {
         pnlNovoUsuario1.add(btnSalvarCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 340, 140, 40));
         pnlNovoUsuario1.add(txtIdCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, 60, -1));
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(29, 31, 40));
-        jButton2.setText("Novo");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnNovoCurso.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnNovoCurso.setForeground(new java.awt.Color(29, 31, 40));
+        btnNovoCurso.setText("Novo");
+        btnNovoCurso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnNovoCursoActionPerformed(evt);
             }
         });
-        pnlNovoUsuario1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 340, -1, 40));
+        pnlNovoUsuario1.add(btnNovoCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 340, -1, 40));
 
         dlgCurso.getContentPane().add(pnlNovoUsuario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 60, 490, 400));
 
@@ -1706,7 +1708,7 @@ public class PrincipalView extends javax.swing.JFrame {
     
     }//GEN-LAST:event_tblCursosMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnNovoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoUsuarioActionPerformed
         txtIdUsuario.setText("");
         txtNome.setText("");
         txtMasp.setText("");
@@ -1714,13 +1716,13 @@ public class PrincipalView extends javax.swing.JFrame {
         txtConfirmarSenha.setText("");
         ckb_Inativo.setSelected(false);
         tblUsuarios.clearSelection();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnNovoUsuarioActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnNovoCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoCursoActionPerformed
         txtNomeCurso.setText("");
         txtIdCurso.setText("");
         tblCursos.clearSelection();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnNovoCursoActionPerformed
 
     private void cbxCursoBuscaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxCursoBuscaItemStateChanged
         listaCadtcc = null;
@@ -1772,6 +1774,8 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JButton btnCursos;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluir;
+    private javax.swing.JButton btnNovoCurso;
+    private javax.swing.JButton btnNovoUsuario;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnSalvarCurso;
     private javax.swing.JButton btnSalvarUsuario;
@@ -1784,8 +1788,6 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JCheckBox ckb_Inativo;
     private javax.swing.JDialog dlgCurso;
     private javax.swing.JDialog dlgUsuario;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
