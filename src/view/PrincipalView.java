@@ -148,9 +148,10 @@ public class PrincipalView extends javax.swing.JFrame {
     }
     
     public void atualizaTabelaCadBusca(){
-            cadtcc = new CadtccM();
+        cadtcc = new CadtccM();
 
-            String dados[][] = new String[listaCadtcc.size()][4];
+        
+        String dados[][] = new String[listaCadtcc.size()][4];
             int i = 0;
             for (CadtccM cad : listaCadtcc) {
                 dados[i][0] = String.valueOf(cad.getId());
@@ -717,6 +718,11 @@ public class PrincipalView extends javax.swing.JFrame {
 
         cbxCursoBusca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbxCursoBusca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos" }));
+        cbxCursoBusca.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxCursoBuscaItemStateChanged(evt);
+            }
+        });
 
         btnCadastro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCadastro.setForeground(new java.awt.Color(29, 31, 40));
@@ -777,7 +783,7 @@ public class PrincipalView extends javax.swing.JFrame {
                         .addComponent(lblFiltro)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbxTipoBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 18, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -1329,7 +1335,7 @@ public class PrincipalView extends javax.swing.JFrame {
                     Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if(cadtcc == null){
-                    txtRegistro.setText(cadtcc.getRegistro());
+                    txtRegistro.setText("1");
                 }else{
                     txtRegistro.setText(cadtcc.getRegistro());
                 }
@@ -1716,17 +1722,50 @@ public class PrincipalView extends javax.swing.JFrame {
         tblCursos.clearSelection();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void cbxCursoBuscaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxCursoBuscaItemStateChanged
+        listaCadtcc = null;
+        if(txtBusca.getText().equals("")){
+            if(cbxCurso.getSelectedIndex() != 0){
+             try {
+                listaCadtcc = cadtccdao.listaCurso(cbxCursoBusca.getSelectedItem().toString());
+
+                if(listaCadtcc == null){
+                    JOptionPane.showMessageDialog(null, "Nenhum dado encontrado!","", JOptionPane.WARNING_MESSAGE);
+                    atualizaTabelaCad();
+                }else{
+                    atualizaTabelaCadBusca();
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+            }
+        }            
+        }else{
+                    
+            try {
+                listaCadtcc = cadtccdao.listaAutor(txtBusca.getText(), cbxCursoBusca.getSelectedItem().toString(), cbxTipoBusca.getSelectedItem().toString());
+
+                if(listaCadtcc == null){
+                    JOptionPane.showMessageDialog(null, "Nenhum dado encontrado!","", JOptionPane.WARNING_MESSAGE);
+                    atualizaTabelaCad();
+                }else{
+                    atualizaTabelaCadBusca();
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_cbxCursoBuscaItemStateChanged
+
     public void limparcampos(){
     txtApresentacao.setValue("");
     txtAutor.setText("");
-    txtBusca.setText("");
     txtCoorientador.setText("");
     txtEntrega.setValue("");
     txtId.setText("");
     txtOrientador.setText("");
     txtRegistro.setText("");
     txtTitulo.setText("");
-    }   
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastro;

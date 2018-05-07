@@ -158,6 +158,31 @@ public class CadtccD {
         return listaCadtcc;
     }
     
+    public List<CadtccM> listaCurso(String curso) throws SQLException{
+        PreparedStatement pst;
+        String sql;
+        List<CadtccM> listaCadtcc = new ArrayList<>();
+        sql = "select * from Cadtcc t inner join Curso c on t.idcurso = c.id where c.nome = ?";
+        pst = Conexao.getInstance().prepareStatement(sql);
+        pst.setString(1, curso);
+        ResultSet rs = pst.executeQuery();
+        
+        while(rs.next()){
+            listaCadtcc.add(new CadtccM(
+                            rs.getInt("id"),
+                            rs.getString("autor"),
+                            rs.getString("titulo"),
+                            rs.getString("orientador"),
+                            rs.getString("coorientador"),
+                            cursodao.busca(rs.getInt("idcurso")),
+                            rs.getString("registro"),
+                            rs.getString("dataentrega"),
+                            rs.getString("dataapresentacao"),
+                            rs.getString("trabalho")));
+        }
+        pst.close();
+        return listaCadtcc;
+    }
     
     public CadtccM buscaUltimoRegistro() throws SQLException{
         PreparedStatement pst;
