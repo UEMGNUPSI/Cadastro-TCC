@@ -87,10 +87,11 @@ public class PrincipalView extends javax.swing.JFrame {
         btnUsuarios.setUI(new BasicButtonUI());
         btnCursos.setUI(new BasicButtonUI());
         btnSalvarUsuario.setUI(new BasicButtonUI());
-              
         btnSalvarCurso.setUI(new BasicButtonUI());
         //lstCursos.setUI(new BasicListUI());
         
+        btnSubir.setVisible(false);
+        txtBusca.requestFocusInWindow();
         lblUsuario.setText(usuario.getNome());
         if(usuario.getAdmin() == true){
             // btn true
@@ -720,11 +721,6 @@ public class PrincipalView extends javax.swing.JFrame {
 
         cbxCursoBusca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbxCursoBusca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos" }));
-        cbxCursoBusca.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbxCursoBuscaItemStateChanged(evt);
-            }
-        });
 
         btnCadastro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCadastro.setForeground(new java.awt.Color(29, 31, 40));
@@ -1723,40 +1719,6 @@ public class PrincipalView extends javax.swing.JFrame {
         txtIdCurso.setText("");
         tblCursos.clearSelection();
     }//GEN-LAST:event_btnNovoCursoActionPerformed
-
-    private void cbxCursoBuscaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxCursoBuscaItemStateChanged
-        listaCadtcc = null;
-        if(txtBusca.getText().equals("")){
-            if(cbxCurso.getSelectedIndex() != 0){
-             try {
-                listaCadtcc = cadtccdao.listaCurso(cbxCursoBusca.getSelectedItem().toString());
-
-                if(listaCadtcc == null){
-                    JOptionPane.showMessageDialog(null, "Nenhum dado encontrado!","", JOptionPane.WARNING_MESSAGE);
-                    atualizaTabelaCad();
-                }else{
-                    atualizaTabelaCadBusca();
-                }
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
-            }
-        }            
-        }else{
-                    
-            try {
-                listaCadtcc = cadtccdao.listaAutor(txtBusca.getText(), cbxCursoBusca.getSelectedItem().toString(), cbxTipoBusca.getSelectedItem().toString());
-
-                if(listaCadtcc == null){
-                    JOptionPane.showMessageDialog(null, "Nenhum dado encontrado!","", JOptionPane.WARNING_MESSAGE);
-                    atualizaTabelaCad();
-                }else{
-                    atualizaTabelaCadBusca();
-                }
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
-            }
-        }
-    }//GEN-LAST:event_cbxCursoBuscaItemStateChanged
 
     public void limparcampos(){
     txtApresentacao.setValue("");

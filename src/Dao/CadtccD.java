@@ -30,7 +30,11 @@ public class CadtccD {
         pst.setString(2, cadtcc.getAutor());
         pst.setString(3, cadtcc.getTitulo());
         pst.setString(4, cadtcc.getOrientador());
-        pst.setString(5, cadtcc.getCoorientador());
+        if(cadtcc.getCoorientador().isEmpty()){
+            pst.setString(5, "Inexistente");
+        }else{
+            pst.setString(5, cadtcc.getCoorientador());
+        }
         pst.setInt(6, cadtcc.getIdCurso().getId());
         pst.setString(7, cadtcc.getRegistro()); 
         pst.setString(8, cadtcc.getDataEntrega());
