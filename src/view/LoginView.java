@@ -125,7 +125,6 @@ public class LoginView extends javax.swing.JFrame {
         txtLogin.setBackground(new java.awt.Color(249, 249, 249));
         txtLogin.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtLogin.setForeground(new java.awt.Color(29, 31, 40));
-        txtLogin.setText("root");
         txtLogin.setToolTipText("Digite seu MASP");
         txtLogin.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(59, 110, 149)), javax.swing.BorderFactory.createEmptyBorder(1, 40, 0, 1)));
         txtLogin.setFocusCycleRoot(true);
@@ -145,7 +144,6 @@ public class LoginView extends javax.swing.JFrame {
         txtSenha.setBackground(new java.awt.Color(249, 249, 249));
         txtSenha.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         txtSenha.setForeground(new java.awt.Color(29, 31, 40));
-        txtSenha.setText("root");
         txtSenha.setToolTipText("Digite sua senha");
         txtSenha.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(59, 110, 143)), javax.swing.BorderFactory.createEmptyBorder(1, 40, 0, 1)));
         txtSenha.addKeyListener(new java.awt.event.KeyAdapter() {
