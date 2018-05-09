@@ -133,7 +133,6 @@ public class CadtccD {
         pst.setString(1, nome);
         if(!curso.equals("Todos")){
             pst.setString(2, curso);
-            
         }
         
         ResultSet rs = pst.executeQuery();

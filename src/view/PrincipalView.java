@@ -8,7 +8,10 @@ import Model.CadtccM;
 import Model.CursoM;
 import Model.LogM;
 import Model.UsuarioM;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.File;
+import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -80,7 +83,9 @@ public class PrincipalView extends javax.swing.JFrame {
         btnSalvarUsuario.setUI(new BasicButtonUI());
         btnSalvarCurso.setUI(new BasicButtonUI());
         //lstCursos.setUI(new BasicListUI());
-        
+        URL url = this.getClass().getResource("imagem/grad.png");
+        Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
+        this.setIconImage(imagemTitulo);
         btnSubir.setVisible(false);
         txtBusca.requestFocusInWindow();
         lblUsuario.setText(usuario.getNome());

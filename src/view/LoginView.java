@@ -9,7 +9,10 @@ import Dao.LogD;
 import Dao.UsuarioD;
 import Model.LogM;
 import Model.UsuarioM;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
@@ -44,6 +47,9 @@ public class LoginView extends javax.swing.JFrame {
         
         txtLogin.requestFocus();
         txtLogin.selectAll();
+        URL url = this.getClass().getResource("imagem/grad.png");
+        Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
+        this.setIconImage(imagemTitulo);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
