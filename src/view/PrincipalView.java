@@ -1,7 +1,6 @@
 package view;
 
 import Dao.CadtccD;
-import Dao.Conexao;
 import Dao.CursoD;
 import Dao.LogD;
 import Dao.UsuarioD;
@@ -9,25 +8,19 @@ import Model.CadtccM;
 import Model.CursoM;
 import Model.LogM;
 import Model.UsuarioM;
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
 import java.io.File;
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.basic.BasicButtonUI;
-import javax.swing.plaf.basic.BasicInternalFrameUI;
-import javax.swing.plaf.basic.BasicListUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -64,8 +57,6 @@ public class PrincipalView extends javax.swing.JFrame {
         atualizaTabelaCad();
         atualizaBoxCurso();
         atualizaBoxCursobusca();
-        atualizaTabelaUsuario();
-        atualizaTabelaCurso();
         dlgUsuario.setLocationRelativeTo(null);
         dlgCurso.setLocationRelativeTo(null);
         txtAutor.setText("");
@@ -113,25 +104,23 @@ public class PrincipalView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
         }
         
-        String dados[][] = new String[listaCadtcc.size()][4];
+        String dados[][] = new String[listaCadtcc.size()][3];
             int i = 0;
             for (CadtccM cad : listaCadtcc) {
                 dados[i][0] = String.valueOf(cad.getId());
                 dados[i][1] = cad.getAutor();
                 dados[i][2] = cad.getTitulo();
-                dados[i][3] = cad.getIdCurso().getNome();
 
                 i++;
             }
-            String tituloColuna[] = {"ID", "Autor", "Trabalho", "Curso",};
+            String tituloColuna[] = {"ID", "Autor", "Trabalho"};
             DefaultTableModel tabelacad = new DefaultTableModel();
             tabelacad.setDataVector(dados, tituloColuna);
             tblTCC.setModel(new DefaultTableModel(dados, tituloColuna) {
                 boolean[] canEdit = new boolean[]{
-                    false, false, false, false
+                    false, false, false
                 };
 
-                @Override
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
                     return canEdit[columnIndex];
                 }
@@ -140,8 +129,6 @@ public class PrincipalView extends javax.swing.JFrame {
             tblTCC.getColumnModel().getColumn(0).setMaxWidth(0);
             tblTCC.getColumnModel().getColumn(0).setMinWidth(0);
             tblTCC.getColumnModel().getColumn(0).setPreferredWidth(0);
-            tblTCC.getColumnModel().getColumn(1).setPreferredWidth(100);
-            tblTCC.getColumnModel().getColumn(2).setPreferredWidth(200);
             
             DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
             centralizado.setHorizontalAlignment(SwingConstants.CENTER);
@@ -154,25 +141,23 @@ public class PrincipalView extends javax.swing.JFrame {
         cadtcc = new CadtccM();
 
         
-        String dados[][] = new String[listaCadtcc.size()][4];
+        String dados[][] = new String[listaCadtcc.size()][3];
             int i = 0;
             for (CadtccM cad : listaCadtcc) {
                 dados[i][0] = String.valueOf(cad.getId());
                 dados[i][1] = cad.getAutor();
                 dados[i][2] = cad.getTitulo();
-                dados[i][3] = cad.getIdCurso().getNome();
 
                 i++;
             }
-            String tituloColuna[] = {"ID", "Autor", "Trabalho", "Curso",};
+            String tituloColuna[] = {"ID", "Autor", "Trabalho"};
             DefaultTableModel tabelacad = new DefaultTableModel();
             tabelacad.setDataVector(dados, tituloColuna);
             tblTCC.setModel(new DefaultTableModel(dados, tituloColuna) {
                 boolean[] canEdit = new boolean[]{
-                    false, false, false, false
+                    false, false,false
                 };
 
-                @Override
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
                     return canEdit[columnIndex];
                 }
@@ -181,8 +166,6 @@ public class PrincipalView extends javax.swing.JFrame {
             tblTCC.getColumnModel().getColumn(0).setMaxWidth(0);
             tblTCC.getColumnModel().getColumn(0).setMinWidth(0);
             tblTCC.getColumnModel().getColumn(0).setPreferredWidth(0);
-            tblTCC.getColumnModel().getColumn(1).setPreferredWidth(100);
-            tblTCC.getColumnModel().getColumn(2).setPreferredWidth(200);
             
             DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
             centralizado.setHorizontalAlignment(SwingConstants.CENTER);
@@ -215,7 +198,6 @@ public class PrincipalView extends javax.swing.JFrame {
                     false, false
                 };
 
-                @Override
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
                     return canEdit[columnIndex];
                 }
@@ -258,7 +240,6 @@ public class PrincipalView extends javax.swing.JFrame {
                     false, false
                 };
 
-                @Override
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
                     return canEdit[columnIndex];
                 }
@@ -1457,7 +1438,7 @@ public class PrincipalView extends javax.swing.JFrame {
         txtId.setText(String.valueOf(cadtcc.getId()));
         txtRegistro.setText(cadtcc.getRegistro());
         txtTitulo.setText(cadtcc.getTitulo());
-        cbxCurso.setSelectedItem(tblTCC.getValueAt(tblTCC.getSelectedRow(),3).toString());
+        cbxCurso.setSelectedItem(cadtcc.getIdCurso().getNome());
         //(cadtcc.getTrabalho());
         
         if (cadtcc.getCoorientador().isEmpty()) {
@@ -1488,14 +1469,22 @@ public class PrincipalView extends javax.swing.JFrame {
 
     private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed
         // Chama a jDialog Usuarios
-        
         dlgUsuario.setVisible(true);
+        try {
+            atualizaTabelaUsuario();
+        } catch (SQLException ex) {
+            Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnUsuariosActionPerformed
 
     private void btnCursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCursosActionPerformed
         // Chama a jDialog Cursos
-        
         dlgCurso.setVisible(true);
+        try {
+            atualizaTabelaCurso();
+        } catch (SQLException ex) {
+            Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnCursosActionPerformed
 
     private void btnSalvarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarUsuarioActionPerformed

@@ -99,14 +99,7 @@ public class CadtccD {
             listaCadtcc.add(new CadtccM(
                             rs.getInt("id"),
                             rs.getString("autor"),
-                            rs.getString("titulo"),
-                            rs.getString("orientador"),
-                            rs.getString("coorientador"),
-                            cursodao.busca(rs.getInt("idcurso")),
-                            rs.getString("registro"),
-                            rs.getString("dataentrega"),
-                            rs.getString("dataapresentacao"),
-                            rs.getString("trabalho")));
+                            rs.getString("titulo")));
         }
         pst.close();
         return listaCadtcc;
@@ -149,14 +142,7 @@ public class CadtccD {
             listaCadtcc.add(new CadtccM(
                             rs.getInt("id"),
                             rs.getString("autor"),
-                            rs.getString("titulo"),
-                            rs.getString("orientador"),
-                            rs.getString("coorientador"),
-                            cursodao.busca(rs.getInt("idcurso")),
-                            rs.getString("registro"),
-                            rs.getString("dataentrega"),
-                            rs.getString("dataapresentacao"),
-                            rs.getString("trabalho")));
+                            rs.getString("titulo")));
         }
         pst.close();
         return listaCadtcc;

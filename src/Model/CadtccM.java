@@ -25,6 +25,12 @@ public class CadtccM {
     public CadtccM() {
     }
 
+    public CadtccM(int Id, String Autor, String Titulo) {
+        this.Id = Id;
+        this.Autor = Autor;
+        this.Titulo = Titulo;
+    }
+    
     public CadtccM(int Id, String Autor, String Titulo, String Orientador, String Coorientador, CursoM IdCurso, String Registro, String DataEntrega, String DataApresentacao, String Trabalho) {
         this.Id = Id;
         this.Autor = Autor;
