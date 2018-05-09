@@ -25,7 +25,7 @@ public class Conexao implements Serializable {
         usuario = "tcc";        
         senha = "Uemg2018";
 
-        url = "jdbc:mysql://10.93.10.10:3306/cadtcc";      
+        url = "jdbc:mysql://10.93.10.10:3306/cadtcc?autoReconnect=true&useSSL=false";      
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(url, usuario, senha);
