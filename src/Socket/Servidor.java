@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package Socket;
-
+/*
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,7 +13,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import sun.nio.ch.ServerSocketAdaptor;
 
-/**
+
  *
  * @author NUPSI
  */

@@ -47,7 +47,7 @@ public class LoginView extends javax.swing.JFrame {
         
         txtLogin.requestFocus();
         txtLogin.selectAll();
-        URL url = this.getClass().getResource("imagem/grad.png");
+        URL url = this.getClass().getResource("imagens/grad.png");
         Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
         this.setIconImage(imagemTitulo);
     }

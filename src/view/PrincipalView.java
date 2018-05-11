@@ -3,10 +3,12 @@ package view;
 import Dao.CadtccD;
 import Dao.CursoD;
 import Dao.LogD;
+import Dao.UltimoRegistroD;
 import Dao.UsuarioD;
 import Model.CadtccM;
 import Model.CursoM;
 import Model.LogM;
+import Model.UltimoRegistroM;
 import Model.UsuarioM;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -43,6 +45,9 @@ public class PrincipalView extends javax.swing.JFrame {
     
     LogM log = new LogM();
     LogD logdao = new LogD();
+    
+    UltimoRegistroM ultimoregistro = new UltimoRegistroM();
+    UltimoRegistroD ultimoregistrodao = new UltimoRegistroD();
     
     UsuarioM usuariologado = new UsuarioM();
     
@@ -83,7 +88,7 @@ public class PrincipalView extends javax.swing.JFrame {
         btnSalvarUsuario.setUI(new BasicButtonUI());
         btnSalvarCurso.setUI(new BasicButtonUI());
         //lstCursos.setUI(new BasicListUI());
-        URL url = this.getClass().getResource("imagem/grad.png");
+        URL url = this.getClass().getResource("imagens/grad.png");
         Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
         this.setIconImage(imagemTitulo);
         btnSubir.setVisible(false);
@@ -1130,6 +1135,7 @@ public class PrincipalView extends javax.swing.JFrame {
         cadtcc = new CadtccM();
         curso = new CursoM();
         log = new LogM();
+        ultimoregistro = new UltimoRegistroM();
 
         String name = txtAutor.getText();
         
@@ -1188,11 +1194,13 @@ public class PrincipalView extends javax.swing.JFrame {
                     log.setData(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
                     log.setTituloTrabalho(txtTitulo.getText());
 
-
+                    ultimoregistro.setId(1);
+                    ultimoregistro.setNome(cadtcc.getRegistro());
 
                     try {
                         cadtccdao.salvar(cadtcc);
                         logdao.Salvar(log);
+                        ultimoregistrodao.alterar(ultimoregistro);
                         JOptionPane.showMessageDialog(null, "Gravado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                         atualizaTabelaCad();
                         limparcampos();
@@ -1266,7 +1274,7 @@ public class PrincipalView extends javax.swing.JFrame {
                 cadtcc = new CadtccM();
                 tblTCC.clearSelection();
                 try {
-                    cadtcc = cadtccdao.buscaUltimoRegistro();
+                    cadtcc.setRegistro(ultimoregistrodao.buscaId());
                 } catch (SQLException ex) {
                     Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -1314,7 +1322,7 @@ public class PrincipalView extends javax.swing.JFrame {
             txtEntrega.setEnabled(true);
             cbxCurso.setEnabled(true);
             try {
-                    cadtcc = cadtccdao.buscaUltimoRegistro();
+                    cadtcc.setRegistro(ultimoregistrodao.buscaId());
                 } catch (SQLException ex) {
                     Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
                 }

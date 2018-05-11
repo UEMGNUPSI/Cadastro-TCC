@@ -4,14 +4,13 @@
  * and open the template in the editor.
  */
 package Socket;
-
+/*
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-/**
  *
  * @author NUPSI
  */

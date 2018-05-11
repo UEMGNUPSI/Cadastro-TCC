@@ -171,39 +171,7 @@ public class CadtccD {
         }
         pst.close();
         return listaCadtcc;
-    }
-    
-    public CadtccM buscaUltimoRegistro() throws SQLException{
-        PreparedStatement pst;
-        String sql;
-        CadtccM cadtcc = null;
-        int i = 0;        
-        sql = "select * from cadtcc order by id desc";
-        pst = Conexao.getInstance().prepareStatement(sql);
-        ResultSet rs = pst.executeQuery();
-        while(rs.next()){
-            cadtcc = new CadtccM(
-                            rs.getInt("id"),
-                            rs.getString("autor"),
-                            rs.getString("titulo"),
-                            rs.getString("orientador"),
-                            rs.getString("coorientador"),
-                            cursodao.busca(rs.getInt("idcurso")),
-                            rs.getString("registro"),
-                            rs.getString("dataentrega"),
-                            rs.getString("dataapresentacao"),
-                            rs.getString("trabalho"));
-            i++;
-        }
-        pst.close();
-        
-        if(i==0){
-            return null;
-        }else{
-            return cadtcc;
-        }
-    }
-    
+    }    
     
     public CadtccM buscaId(int Id) throws SQLException{
         PreparedStatement pst;
